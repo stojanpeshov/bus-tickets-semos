@@ -4,14 +4,16 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211117205735_BusesAndBusCompaniesMigration")]
+    partial class BusesAndBusCompaniesMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,15 +28,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CompanyId");
-
-                    b.HasIndex("BusId");
 
                     b.ToTable("BusCompanies");
                 });
@@ -120,15 +117,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
-                        .WithMany()
-                        .HasForeignKey("BusId");
-
-                    b.Navigation("Bus");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>

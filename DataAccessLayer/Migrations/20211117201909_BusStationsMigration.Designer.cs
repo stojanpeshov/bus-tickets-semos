@@ -4,40 +4,22 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211117201909_BusStationsMigration")]
+    partial class BusStationsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
-                {
-                    b.Property<int>("CompanyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BusId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CompanyId");
-
-                    b.HasIndex("BusId");
-
-                    b.ToTable("BusCompanies");
-                });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>
                 {
@@ -57,24 +39,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("BusStations");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.Buses", b =>
-                {
-                    b.Property<int>("BusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BusType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BusId");
-
-                    b.ToTable("Buses");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Cities", b =>
@@ -120,15 +84,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
-                        .WithMany()
-                        .HasForeignKey("BusId");
-
-                    b.Navigation("Bus");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>

@@ -9,6 +9,10 @@ namespace DataAccessLayer.DataContext
     // DbContext is a pre-build class that allows us to interact with our database
     public class DatabaseContext : DbContext
     {
+        public DatabaseContext()
+        {
+
+        }
         // Initiating a database connection with its entities
         public class OptionsBuild
         {
@@ -34,6 +38,9 @@ namespace DataAccessLayer.DataContext
         public DatabaseContext(DbContextOptions<DatabaseContext> options): base(options) { }
         // DbSets
         public DbSet<Users> Users { get; set; }
-
+        public DbSet<Cities> Cities { get; set; }
+        public DbSet<BusStations> BusStations { get; set; }
+        public DbSet<Buses> Buses { get; set; }
+        public DbSet<BusCompanies> BusCompanies { get; set; }
     }
 }
