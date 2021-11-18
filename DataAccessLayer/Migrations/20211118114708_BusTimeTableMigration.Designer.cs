@@ -4,52 +4,22 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211118114708_BusTimeTableMigration")]
+    partial class BusTimeTableMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
-                {
-                    b.Property<int>("BookingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BusCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LaneId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TimeTableId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookingId");
-
-                    b.HasIndex("BusCapacity");
-
-                    b.HasIndex("LaneId");
-
-                    b.HasIndex("TimeTableId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Bookings");
-                });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
                 {
@@ -111,7 +81,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("BusStations");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusTimeTables", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusTimeTable", b =>
                 {
                     b.Property<int>("TimeTableId")
                         .ValueGeneratedOnAdd()
@@ -135,7 +105,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("TimeTableId");
 
-                    b.ToTable("BusTimeTables");
+                    b.ToTable("BusTimeTable");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Buses", b =>
@@ -199,33 +169,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "BusSeats")
-                        .WithMany()
-                        .HasForeignKey("BusCapacity");
-
-                    b.HasOne("DataAccessLayer.Entities.BusLanes", "Lane")
-                        .WithMany()
-                        .HasForeignKey("LaneId");
-
-                    b.HasOne("DataAccessLayer.Entities.BusTimeTables", "TimeTable")
-                        .WithMany()
-                        .HasForeignKey("TimeTableId");
-
-                    b.HasOne("DataAccessLayer.Entities.Users", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("BusSeats");
-
-                    b.Navigation("Lane");
-
-                    b.Navigation("TimeTable");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
