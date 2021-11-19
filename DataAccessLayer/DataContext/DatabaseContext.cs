@@ -34,6 +34,8 @@ namespace DataAccessLayer.DataContext
         public DatabaseContext(DbContextOptions<DatabaseContext> options): base(options) { }
         // DbSets
         public DbSet<Users> Users { get; set; }
+        // prvite <> se za imeto na klasata sto ima vo nea properties,a vtoroto e imeto na Tabelata
+        // public DbSet<Buses> Buses { get; set; }
 
     }
 }
