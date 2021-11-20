@@ -1,43 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DataAccessLayer.DataContext;
 using DataAccessLayer.Entities;
 using System.Linq;
-using DataAccessLayer.DataContext;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    // methods for the Users Entity
-    public class usersDAL : IusersDAL
+    public class seatsDAL
     {
         DatabaseContext db = new DatabaseContext();
 
         // listing all the users
-        public List<Users> GetAllUsers()
+        public List<Seats> GetAllSeats()
         {
-            return db.Users.ToList();
+            return db.Seats.ToList();
         }
         // finding a user by id
-        public Users GetUserById(int id)
+        public Seats GetSeatById(int id)
         {
-            return db.Users.Find(id);
+            return db.Seats.Find(id);
         }
         // adding a new user
-        public void Insert(Users user)
+        public void Insert(Seats seat)
         {
-            db.Users.Add(user);
+            db.Seats.Add(seat);
             db.SaveChanges();
         }
         // updating some parameters
-        public void Update(Users user)
+        public void Update(Seats seat)
         {
-            db.Users.Update(user);
+            db.Seats.Update(seat);
             db.SaveChanges();
         }
         // deleting an user
-        public void Delete(Users user)
+        public void Delete(Seats seat)
         {
-            db.Users.Remove(user);
+            db.Seats.Remove(seat);
             db.SaveChanges();
         }
     }
