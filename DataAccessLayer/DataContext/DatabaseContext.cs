@@ -45,5 +45,6 @@ namespace DataAccessLayer.DataContext
         public DbSet<BusLanes> BusLanes { get; set; }
         public DbSet<BusTimeTables> BusTimeTables { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
+        public DbSet<Seats> Seats { get; set; }
     }
 }
