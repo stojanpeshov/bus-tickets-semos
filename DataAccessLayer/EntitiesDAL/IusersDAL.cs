@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public interface IusersDAL
+    public interface IUsersDAL
     {
         List<Users> GetAllUsers();
         Users GetUserById(int id);

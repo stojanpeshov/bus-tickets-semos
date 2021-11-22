@@ -8,37 +8,41 @@ using System.Linq;
 namespace DataAccessLayer
 {
     // methods for the Cities Entity
-    public class citiesDAL
+    public class CitiesDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public CitiesDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         // listing all the cities
         public List<Cities> GetAllCities() 
         {
-            return db.Cities.ToList();
+            return _context.Cities.ToList();
         }
         // finding a city by id 
         public Cities GetCityById(int id)
         {
-            return db.Cities.Find(id);
+            return _context.Cities.Find(id);
         }
         // adding a new city
         public void Insert(Cities city)
         {
-            db.Cities.Add(city);
-            db.SaveChanges();
+            _context.Cities.Add(city);
+            _context.SaveChanges();
         }
         // deleting a city
         public void Delete(Cities city)
         {
-            db.Cities.Remove(city);
-            db.SaveChanges();
+            _context.Cities.Remove(city);
+            _context.SaveChanges();
         }
         // updating some parameters 
         public void Update(Cities city)
         {
-            db.Cities.Update(city);
-            db.SaveChanges();
+            _context.Cities.Update(city);
+            _context.SaveChanges();
         }
     }
 }

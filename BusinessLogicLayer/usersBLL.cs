@@ -4,19 +4,17 @@ using System;
 
 namespace BusinessLogicLayer
 {
-    public class usersBLL
+    public class UsersBLL
     {
-        //private readonly IusersDAL _users;
-        //public Users User { get; set; }
+        private readonly UsersDAL _user;
+        public UsersBLL(UsersDAL user)
+        {
+            _user = user;
+        }
 
-        //public usersBLL(usersDAL users)
-        //{
-        //    _users = users;
-        //}
-        usersDAL users = new usersDAL();
         public string GetUsernameById(int id)
         {
-            Users username = users.GetUserById(id);
+            Users username = _user.GetUserById(id);
             return username.Username;
         }
     }

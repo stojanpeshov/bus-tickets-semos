@@ -5,12 +5,16 @@ using System.Collections.Generic;
 
 namespace BusinessLogicLayer
 {
-    public class seatsBLL
+    public class SeatsBLL
     {
-        seatsDAL seats = new seatsDAL();
+        private readonly SeatsDAL _seat;
+        public SeatsBLL(SeatsDAL seat){
+            _seat = seat;
+        }
+
         public IEnumerable<Seats> GetAllSeats()
         {
-            return seats.GetAllSeats();
+            return _seat.GetAllSeats();
         }
     }
 }

@@ -7,33 +7,37 @@ using DataAccessLayer.Entities;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class busLanesDAL
+    public class BusLanesDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BusLanesDAL (DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public List<BusLanes> GetAllBusLanes()
         {
-            return db.BusLanes.ToList();
+            return _context.BusLanes.ToList();
         }
 
         public BusLanes GetBusLanesById(int id)
         {
-            return db.BusLanes.Find(id);
+            return _context.BusLanes.Find(id);
         }
 
         public void Insert(BusLanes buslane)
         {
-            db.BusLanes.Add(buslane);
+            _context.BusLanes.Add(buslane);
         }
 
         public void Update(BusLanes buslane)
         {
-            db.BusLanes.Update(buslane);
+            _context.BusLanes.Update(buslane);
         }
 
         public void Delete(BusLanes buslane)
         {
-            db.BusLanes.Remove(buslane);
+            _context.BusLanes.Remove(buslane);
         }
     }
 }

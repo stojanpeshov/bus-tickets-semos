@@ -9,10 +9,6 @@ namespace DataAccessLayer.DataContext
     // DbContext is a pre-build class that allows us to interact with our database
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
-        {
-
-        }
         // Initiating a database connection with its entities
         public class OptionsBuild
         {

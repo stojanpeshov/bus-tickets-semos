@@ -7,33 +7,37 @@ using DataAccessLayer.Entities;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class busTimeTablesDAL
+    public class BusTimeTablesDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BusTimeTablesDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public List<BusTimeTables> GetAllTimeTables()
         {
-            return db.BusTimeTables.ToList();
+            return _context.BusTimeTables.ToList();
         }
 
         public BusTimeTables GetTimeTableById(int id)
         {
-            return db.BusTimeTables.Find(id);
+            return _context.BusTimeTables.Find(id);
         }
 
         public void Insert (BusTimeTables timeTable)
         {
-            db.BusTimeTables.Add(timeTable);
+            _context.BusTimeTables.Add(timeTable);
         }
 
         public void Update (BusTimeTables timeTable)
         {
-            db.BusTimeTables.Update(timeTable);
+            _context.BusTimeTables.Update(timeTable);
         }
 
         public void Delete (BusTimeTables timeTable)
         {
-            db.BusTimeTables.Remove(timeTable);
+            _context.BusTimeTables.Remove(timeTable);
         }
     }
 }

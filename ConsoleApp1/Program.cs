@@ -7,7 +7,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            usersBLL testUser = new usersBLL();
+            UsersBLL testUser = new UsersBLL();
             Console.WriteLine(testUser.GetUsernameById(2));
             Console.ReadLine();
         }

@@ -4,41 +4,47 @@ using System.Text;
 using DataAccessLayer.Entities;
 using System.Linq;
 using DataAccessLayer.DataContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntitiesDAL
 {
     // methods for the Users Entity
-    public class usersDAL : IusersDAL
+    public class UsersDAL : IUsersDAL
+
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public UsersDAL (DatabaseContext context)
+        {
+            _context = context;
+        }
 
         // listing all the users
         public List<Users> GetAllUsers()
         {
-            return db.Users.ToList();
+            return _context.Users.ToList();
         }
         // finding a user by id
         public Users GetUserById(int id)
         {
-            return db.Users.Find(id);
+            return _context.Users.Find(id);
         }
         // adding a new user
         public void Insert(Users user)
         {
-            db.Users.Add(user);
-            db.SaveChanges();
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
         // updating some parameters
         public void Update(Users user)
         {
-            db.Users.Update(user);
-            db.SaveChanges();
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
         // deleting an user
         public void Delete(Users user)
         {
-            db.Users.Remove(user);
-            db.SaveChanges();
+            _context.Users.Remove(user);
+            _context.SaveChanges();
         }
     }
 }

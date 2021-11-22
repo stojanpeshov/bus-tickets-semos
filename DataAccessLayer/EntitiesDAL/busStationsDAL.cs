@@ -8,37 +8,41 @@ using DataAccessLayer.Entities;
 namespace DataAccessLayer.EntitiesDAL
 {
     // methods for the BusStations Entity
-    public class busStationsDAL
+    public class BusStationsDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BusStationsDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         // listing all the bus stations
         public List<BusStations> GetAllBusStations()
         {
-            return db.BusStations.ToList();
+            return _context.BusStations.ToList();
         }
         // finding a bus station by id
         public BusStations GetBusStationById(int id)
         {
-            return db.BusStations.Find();
+            return _context.BusStations.Find();
         }
         // adding a new bus station
         public void Insert(BusStations busStation)
         {
-            db.BusStations.Add(busStation);
-            db.SaveChanges();
+            _context.BusStations.Add(busStation);
+            _context.SaveChanges();
         }
         // updating some parameters 
         public void Update(BusStations busStation)
         {
-            db.BusStations.Update(busStation);
-            db.SaveChanges();
+            _context.BusStations.Update(busStation);
+            _context.SaveChanges();
         }
         // deleting a bus station
         public void Delete(BusStations busStation)
         {
-            db.BusStations.Remove(busStation);
-            db.SaveChanges();
+            _context.BusStations.Remove(busStation);
+            _context.SaveChanges();
         }
     }
 }

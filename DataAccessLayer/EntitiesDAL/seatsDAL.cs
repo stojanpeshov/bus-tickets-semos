@@ -7,37 +7,41 @@ using System.Linq;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class seatsDAL
+    public class SeatsDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public SeatsDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         // listing all the users
         public List<Seats> GetAllSeats()
         {
-            return db.Seats.ToList();
+            return _context.Seats.ToList();
         }
         // finding a user by id
         public Seats GetSeatById(int id)
         {
-            return db.Seats.Find(id);
+            return _context.Seats.Find(id);
         }
         // adding a new user
         public void Insert(Seats seat)
         {
-            db.Seats.Add(seat);
-            db.SaveChanges();
+            _context.Seats.Add(seat);
+            _context.SaveChanges();
         }
         // updating some parameters
         public void Update(Seats seat)
         {
-            db.Seats.Update(seat);
-            db.SaveChanges();
+            _context.Seats.Update(seat);
+            _context.SaveChanges();
         }
         // deleting an user
         public void Delete(Seats seat)
         {
-            db.Seats.Remove(seat);
-            db.SaveChanges();
+            _context.Seats.Remove(seat);
+            _context.SaveChanges();
         }
     }
 }

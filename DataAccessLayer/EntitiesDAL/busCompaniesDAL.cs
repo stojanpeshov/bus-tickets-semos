@@ -8,34 +8,38 @@ using DataAccessLayer.DataContext;
 // methods for the BusCompanies Entity
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class busCompaniesDAL
+    public class BusCompaniesDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BusCompaniesDAL (DatabaseContext context)
+        {
+            _context = context;
+        }
 
         // listing all the bus companies
         public List<BusCompanies> GetAllBusCompanies()
         {
-            return db.BusCompanies.ToList();
+            return _context.BusCompanies.ToList();
         }
         // finding a bus company by id
         public BusCompanies GetBusCompaniesById (int id)
         {
-            return db.BusCompanies.Find(id);
+            return _context.BusCompanies.Find(id);
         }
         // adding a new bus company
         public void Insert (BusCompanies busCompany)
         {
-            db.BusCompanies.Add(busCompany);
+            _context.BusCompanies.Add(busCompany);
         }
         // updating an already existing bus company
         public void Update (BusCompanies busCompany)
         {
-            db.BusCompanies.Update(busCompany);
+            _context.BusCompanies.Update(busCompany);
         }
         // deleting a bus company
         public void Delete (BusCompanies busCompany)
         {
-            db.BusCompanies.Remove(busCompany);
+            _context.BusCompanies.Remove(busCompany);
         }
     }
 }
