@@ -1,4 +1,5 @@
 using DataAccessLayer.DataContext;
+using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,8 +30,8 @@ namespace API
         {
             var settings = new AppConfiguration();
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(settings.sqlConnectionString));
+            services.AddScoped<BusesDAL>();
             services.AddControllers();
-            //services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
