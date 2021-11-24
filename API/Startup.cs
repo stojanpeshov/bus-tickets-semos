@@ -1,3 +1,4 @@
+using DataAccessLayer;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,14 @@ namespace API
             var settings = new AppConfiguration();
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(settings.sqlConnectionString));
             services.AddScoped<BusesDAL>();
+            services.AddScoped<UsersDAL>();
+            services.AddScoped<SeatsDAL>();
+            services.AddScoped<CitiesDAL>();
+            services.AddScoped<BusTimeTablesDAL>();
+            services.AddScoped<BusStationsDAL>();
+            services.AddScoped<BusLanesDAL>();
+            services.AddScoped<BusCompaniesDAL>();
+            services.AddScoped<BookingsDAL>();
             services.AddControllers();
         }
 

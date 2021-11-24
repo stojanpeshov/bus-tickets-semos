@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.EntitiesDAL;
 using System;
+using System.Collections.Generic;
 
 namespace BusinessLogicLayer
 {
@@ -17,5 +18,6 @@ namespace BusinessLogicLayer
             Users username = _user.GetUserById(id);
             return username.Username;
         }
+
     }
 }

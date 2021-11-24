@@ -8,7 +8,8 @@ namespace BusinessLogicLayer
     public class SeatsBLL
     {
         private readonly SeatsDAL _seat;
-        public SeatsBLL(SeatsDAL seat){
+        public SeatsBLL(SeatsDAL seat)
+        {
             _seat = seat;
         }
 
