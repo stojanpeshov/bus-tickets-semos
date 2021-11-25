@@ -1,3 +1,4 @@
+using BusinessLogicLayer;
 using DataAccessLayer;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.EntitiesDAL;
@@ -40,6 +41,15 @@ namespace API
             services.AddScoped<BusLanesDAL>();
             services.AddScoped<BusCompaniesDAL>();
             services.AddScoped<BookingsDAL>();
+            services.AddScoped<BusesBLL>();
+            services.AddScoped<UsersBLL>();
+            services.AddScoped<SeatsBLL>();
+            services.AddScoped<CitiesBLL>();
+            services.AddScoped<BusTimeTablesBLL>();
+            services.AddScoped<BusStationsBLL>();
+            services.AddScoped<BusLanesBLL>();
+            services.AddScoped<BusCompaniesBLL>();
+            services.AddScoped<BookingsBLL>();
             services.AddControllers();
         }
 
