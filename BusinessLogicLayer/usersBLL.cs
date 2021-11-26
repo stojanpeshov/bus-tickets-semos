@@ -15,9 +15,8 @@ namespace BusinessLogicLayer
 
         public string GetUsernameById(int id)
         {
-            Users username = _user.GetUserById(id);
-            return username.Username;
+            Users user = _user.GetUserById(id);
+            return user.Username;
         }
-
     }
 }

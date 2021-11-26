@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogicLayer
 {
+    // da postoi opcija za izbor na broj na sediste i da gi prikazuva samo tie sto ne se rezervirani
     public class SeatsBLL
     {
         private readonly SeatsDAL _seat;
@@ -16,6 +17,12 @@ namespace BusinessLogicLayer
         public IEnumerable<Seats> GetAllSeats()
         {
             return _seat.GetAllSeats();
+        }
+
+        public string GetSeatById(int id)
+        {
+            Seats seat = _seat.GetSeatById(id);
+            return seat.SeatNumber.ToString();
         }
     }
 }
