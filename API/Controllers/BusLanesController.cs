@@ -21,9 +21,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BusLanes> GetAllBusLanes()
+        public IEnumerable<BusLanes> GetAllBusLanesSorted()
         {
-            return _busLanesBLL.GetAllBusLanes();
+            return _busLanesBLL.GetAllBusLanesSorted();
         }
 
         public IActionResult Index([FromBodyAttribute]BusLanes busLane)

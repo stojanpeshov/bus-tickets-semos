@@ -24,6 +24,11 @@ namespace API.Controllers
         {
             return _seatsBLL.GetAllSeats();
         }
-        //fali get za GetSeatById
+
+        [HttpGet("{id}")]
+        public Seats GetSeatById (int id)
+        {
+            return _seatsBLL.GetSeatById(id);
+        }
     }
 }

@@ -19,10 +19,10 @@ namespace BusinessLogicLayer
             return _seat.GetAllSeats();
         }
 
-        public string GetSeatById(int id)
+        public Seats GetSeatById(int id)
         {
             Seats seat = _seat.GetSeatById(id);
-            return seat.SeatNumber.ToString();
+            return seat;
         }
     }
 }

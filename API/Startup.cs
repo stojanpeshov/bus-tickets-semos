@@ -1,5 +1,6 @@
 using BusinessLogicLayer;
 using DataAccessLayer;
+using DataAccessLayer.Configuration;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace API
 {
@@ -32,6 +34,7 @@ namespace API
         {
             var settings = new AppConfiguration();
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(settings.sqlConnectionString));
+            services.AddAutoMapper(typeof(AutoMapperConfiguration));
             services.AddScoped<BusesDAL>();
             services.AddScoped<UsersDAL>();
             services.AddScoped<SeatsDAL>();

@@ -4,14 +4,16 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211126160951_MapperUpdate")]
+    partial class MapperUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,9 +86,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CityId1")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -94,7 +93,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("BusId");
 
-                    b.HasIndex("CityId1");
+                    b.HasIndex("CityId");
 
                     b.ToTable("BusLanes");
                 });
@@ -170,9 +169,6 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BusLanesId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CityName")
                         .HasColumnType("nvarchar(max)");
@@ -275,8 +271,8 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("BusId");
 
                     b.HasOne("DataAccessLayer.Entities.Cities", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId1");
+                        .WithMany("BusLanes")
+                        .HasForeignKey("CityId");
 
                     b.Navigation("Bus");
 
@@ -299,6 +295,11 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("BusId");
 
                     b.Navigation("Bus");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Cities", b =>
+                {
+                    b.Navigation("BusLanes");
                 });
 #pragma warning restore 612, 618
         }

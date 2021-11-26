@@ -2,6 +2,7 @@
 using DataAccessLayer.EntitiesDAL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BusinessLogicLayer
@@ -14,7 +15,13 @@ namespace BusinessLogicLayer
             _busLane = busLane;
         }
 
-        // fali filtriranje spored naziv na bus lane ili grad vo koj pripagja
+        // filtriranje spored gradovi na avtobuski linii
+        // bara instanciranje na nova referenca(object reference not set..)
+        public IEnumerable<BusLanes> GetAllBusLanesSorted()
+        {
+            return _busLane.GetAllBusLanes().OrderBy(x => x.City.CityName);
+        }
+
         public IEnumerable<BusLanes> GetAllBusLanes()
         {
             return _busLane.GetAllBusLanes();
