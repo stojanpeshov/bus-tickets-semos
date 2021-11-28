@@ -17,7 +17,7 @@ namespace BusinessLogicLayer
         }
 
         // fali podesuvanje za datum i da gi vadi tie sto se po prebaruvanje
-        public IEnumerable<BusLanes> GetAllBusLanes()
+        public IEnumerable<BusLane> GetAllBusLanes()
         {
             return _busLanes.GetAllBusLanes();
         }

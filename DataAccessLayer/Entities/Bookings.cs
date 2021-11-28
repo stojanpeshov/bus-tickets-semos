@@ -18,7 +18,7 @@ namespace DataAccessLayer.Entities
         public virtual BusTimeTables TimeTable { get; set; }
         public int? LaneId { get; set; }
         [ForeignKey("LaneId")]
-        public  virtual BusLanes Lane { get; set; }
+        public  virtual BusLane Lane { get; set; }
         public int? BusCapacity { get; set; }
         [ForeignKey("BusCapacity")]
         public virtual Buses BusSeats { get; set; }

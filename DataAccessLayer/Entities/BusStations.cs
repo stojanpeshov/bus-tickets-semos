@@ -15,6 +15,6 @@ namespace DataAccessLayer.Entities
         public int? CityId { get; set; }
 
         [ForeignKey("CityId")]
-        public virtual Cities City { get; set; }
+        public virtual City City { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace DataAccessLayer.Configuration
     {
         public AutoMapperConfiguration()
         {
-            CreateMap<BusLanes, Cities>().ForAllMembers(x => x.ExplicitExpansion());
-            CreateMap<Cities, BusLanes>().ForAllMembers(x => x.ExplicitExpansion());
+            CreateMap<BusLane, City>().ForAllMembers(x => x.ExplicitExpansion());
+            CreateMap<City, BusLane>().ForAllMembers(x => x.ExplicitExpansion());
         }
     }
 }

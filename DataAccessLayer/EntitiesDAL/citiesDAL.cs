@@ -17,29 +17,29 @@ namespace DataAccessLayer
         }
 
         // listing all the cities
-        public List<Cities> GetAllCities() 
+        public List<City> GetAllCities() 
         {
             return _context.Cities.ToList();
         }
         // finding a city by id 
-        public Cities GetCityById(int id)
+        public City GetCityById(int id)
         {
             return _context.Cities.Find(id);
         }
         // adding a new city
-        public void Insert(Cities city)
+        public void Insert(City city)
         {
             _context.Cities.Add(city);
             _context.SaveChanges();
         }
         // deleting a city
-        public void Delete(Cities city)
+        public void Delete(City city)
         {
             _context.Cities.Remove(city);
             _context.SaveChanges();
         }
         // updating some parameters 
-        public void Update(Cities city)
+        public void Update(City city)
         {
             _context.Cities.Update(city);
             _context.SaveChanges();

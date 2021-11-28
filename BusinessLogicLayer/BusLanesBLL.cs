@@ -16,14 +16,14 @@ namespace BusinessLogicLayer
             _busLane = busLane;
         }
 
-        public IEnumerable<BusLanes> GetAllBusLanes()
+        public IEnumerable<BusLane> GetAllBusLanes()
         {
             return _busLane.GetAllBusLanes();
         }
 
         // filtriranje spored gradovi na avtobuski linii
         // bara instanciranje na nova referenca(object reference not set..)
-        public IEnumerable<BusLanes> GetAllBusLanesSorted()
+        public IEnumerable<BusLane> GetAllBusLanesSorted()
         {
             //return _busLane.GetAllBusLanes().OrderBy(x => x.City.CityName);
             foreach (var lane in _busLane.GetAllBusLanes())
@@ -33,7 +33,7 @@ namespace BusinessLogicLayer
             return _busLane.GetAllBusLanes().OrderBy(x => x.City.CityName);
         }
 
-        public void Insert(BusLanes busLane)
+        public void Insert(BusLane busLane)
         {
             _busLane.Insert(busLane);
         }

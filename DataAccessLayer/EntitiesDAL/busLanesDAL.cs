@@ -15,27 +15,27 @@ namespace DataAccessLayer.EntitiesDAL
             _context = context;
         }
 
-        public List<BusLanes> GetAllBusLanes()
+        public List<BusLane> GetAllBusLanes()
         {
             return _context.BusLanes.ToList();
         }
 
-        public BusLanes GetBusLanesById(int id)
+        public BusLane GetBusLanesById(int id)
         {
             return _context.BusLanes.Find(id);
         }
 
-        public void Insert(BusLanes buslane)
+        public void Insert(BusLane buslane)
         {
             _context.BusLanes.Add(buslane);
         }
 
-        public void Update(BusLanes buslane)
+        public void Update(BusLane buslane)
         {
             _context.BusLanes.Update(buslane);
         }
 
-        public void Delete(BusLanes buslane)
+        public void Delete(BusLane buslane)
         {
             _context.BusLanes.Remove(buslane);
         }

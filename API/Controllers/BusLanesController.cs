@@ -21,12 +21,12 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<BusLanes> GetAllBusLanesSorted()
+        public IEnumerable<BusLane> GetAllBusLanesSorted()
         {
             return _busLanesBLL.GetAllBusLanesSorted();
         }
 
-        public IActionResult Index([FromBodyAttribute]BusLanes busLane)
+        public IActionResult Index([FromBodyAttribute]BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
             return Ok(busLane);

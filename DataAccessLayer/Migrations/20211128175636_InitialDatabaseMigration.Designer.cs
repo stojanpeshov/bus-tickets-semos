@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211126164036_SecondUpdateOfBusLanesAndCities")]
-    partial class SecondUpdateOfBusLanesAndCities
+    [Migration("20211128175636_InitialDatabaseMigration")]
+    partial class InitialDatabaseMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,7 +73,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("BusCompanies");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusLanes", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusLane", b =>
                 {
                     b.Property<int>("LaneId")
                         .ValueGeneratedOnAdd()
@@ -83,12 +83,17 @@ namespace DataAccessLayer.Migrations
                     b.Property<int?>("BusId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("LaneId");
 
                     b.HasIndex("BusId");
+
+                    b.HasIndex("CityId");
 
                     b.ToTable("BusLanes");
                 });
@@ -158,24 +163,17 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Buses");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Cities", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.City", b =>
                 {
                     b.Property<int>("CityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusLanesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CityName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CityId");
-
-                    b.HasIndex("BusLanesId")
-                        .IsUnique()
-                        .HasFilter("[BusLanesId] IS NOT NULL");
 
                     b.ToTable("Cities");
                 });
@@ -236,7 +234,7 @@ namespace DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("BusCapacity");
 
-                    b.HasOne("DataAccessLayer.Entities.BusLanes", "Lane")
+                    b.HasOne("DataAccessLayer.Entities.BusLane", "Lane")
                         .WithMany()
                         .HasForeignKey("LaneId");
 
@@ -266,29 +264,30 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Bus");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusLanes", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusLane", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
                         .WithMany()
                         .HasForeignKey("BusId");
 
-                    b.Navigation("Bus");
-                });
+                    b.HasOne("DataAccessLayer.Entities.City", "City")
+                        .WithMany("BusLanes")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Cities", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
+                    b.Navigation("Bus");
 
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Cities", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.BusLanes", null)
-                        .WithOne("City")
-                        .HasForeignKey("DataAccessLayer.Entities.Cities", "BusLanesId");
+                    b.HasOne("DataAccessLayer.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Seats", b =>
@@ -300,9 +299,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Bus");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusLanes", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.City", b =>
                 {
-                    b.Navigation("City");
+                    b.Navigation("BusLanes");
                 });
 #pragma warning restore 612, 618
         }

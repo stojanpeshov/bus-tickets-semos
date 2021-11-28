@@ -7,16 +7,16 @@ using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class BusLanes
+    public class BusLane
     {
         [Key]
         public int LaneId { get; set; }
         public decimal Price { get; set; }
         public int? BusId { get; set; }
-        [ForeignKey("BusId")]
+        //[ForeignKey("BusId")]
         public virtual Buses Bus { get; set; }
-        public int? CityId { get; set; }
-        [ForeignKey("CityId")]
-        public virtual Cities City { get; set; }
+        //[ForeignKey("City")]
+        public int CityId { get; set; }
+        public virtual City City { get; set; }
     }
 }

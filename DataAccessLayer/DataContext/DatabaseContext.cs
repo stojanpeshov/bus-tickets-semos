@@ -34,11 +34,11 @@ namespace DataAccessLayer.DataContext
         public DatabaseContext(DbContextOptions<DatabaseContext> options): base(options) { }
         // DbSets
         public DbSet<Users> Users { get; set; }
-        public DbSet<Cities> Cities { get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<BusStations> BusStations { get; set; }
         public DbSet<Buses> Buses { get; set; }
         public DbSet<BusCompanies> BusCompanies { get; set; }
-        public DbSet<BusLanes> BusLanes { get; set; }
+        public DbSet<BusLane> BusLanes { get; set; }
         public DbSet<BusTimeTables> BusTimeTables { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
         public DbSet<Seats> Seats { get; set; }
