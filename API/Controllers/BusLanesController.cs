@@ -20,10 +20,10 @@ namespace API.Controllers
             _busLanesBLL = busLanesBLL;
         }
 
-        [HttpGet]
-        public IEnumerable<BusLane> GetAllBusLanesSorted()
+        [HttpGet("{id}")]
+        public IEnumerable<BusLane> GetAllBusLanesSorted(int id)
         {
-            return _busLanesBLL.GetAllBusLanesSorted();
+            return _busLanesBLL.GetAllBusLanesSorted(id);
         }
 
         public IActionResult Index([FromBodyAttribute]BusLane busLane)

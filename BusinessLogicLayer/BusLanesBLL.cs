@@ -22,15 +22,11 @@ namespace BusinessLogicLayer
         }
 
         // filtriranje spored gradovi na avtobuski linii
-        // bara instanciranje na nova referenca(object reference not set..)
-        public IEnumerable<BusLane> GetAllBusLanesSorted()
+        public IEnumerable<BusLane> GetAllBusLanesSorted(int? id)
         {
-            //return _busLane.GetAllBusLanes().OrderBy(x => x.City.CityName);
-            foreach (var lane in _busLane.GetAllBusLanes())
-            {
-                Debug.WriteLine(lane.City);
-            }
-            return _busLane.GetAllBusLanes().OrderBy(x => x.City.CityName);
+            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.CityId == id).ToList();
+            return allBusLanes;
+ 
         }
 
         public void Insert(BusLane busLane)
