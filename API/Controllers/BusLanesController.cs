@@ -20,6 +20,12 @@ namespace API.Controllers
             _busLanesBLL = busLanesBLL;
         }
 
+        [HttpGet]
+        public IEnumerable<BusLane> GetAll()
+        {
+            return _busLanesBLL.GetAllBusLanes();
+        }
+
         [HttpGet("{id}")]
         public IEnumerable<BusLane> GetAllBusLanesSorted(int id)
         {

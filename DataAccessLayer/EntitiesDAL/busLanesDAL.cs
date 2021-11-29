@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using DataAccessLayer.DataContext;
+﻿using DataAccessLayer.DataContext;
 using DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataAccessLayer.EntitiesDAL
 {
@@ -17,7 +16,22 @@ namespace DataAccessLayer.EntitiesDAL
 
         public List<BusLane> GetAllBusLanes()
         {
-            return _context.BusLanes.ToList();
+            /* TODO: 
+             * EF Core, by default, does not include related entities to your models when you querying data 
+             * because it could be very slow (imagine a model with ten related entities, all all related entities having its own relationships).
+             * To include the categories data, we need only one extra line: 
+             * .Include(..)
+             * 
+             * see: https://www.freecodecamp.org/news/an-awesome-guide-on-how-to-build-restful-apis-with-asp-net-core-87b818123e28/
+             * 
+             * 
+             * preporaclivo e da se pravi orderby na nivo na DAL t.e. database query
+             * */
+            var result =_context.BusLanes
+                .Include(bl => bl.City)
+                .OrderBy(bl => bl.City.CityName)
+                .ToList();
+            return result;
         }
 
         public BusLane GetBusLanesById(int id)

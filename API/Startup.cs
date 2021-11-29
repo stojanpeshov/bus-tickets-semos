@@ -1,22 +1,14 @@
 using BusinessLogicLayer;
 using DataAccessLayer;
-using DataAccessLayer.Configuration;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 
 namespace API
 {
@@ -34,7 +26,10 @@ namespace API
         {
             var settings = new AppConfiguration();
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(settings.sqlConnectionString));
-            services.AddAutoMapper(typeof(AutoMapperConfiguration));
+
+            // TODO: ne go razbiram maperov, sto treba da mapira i kade se koristi?
+            //services.AddAutoMapper(typeof(AutoMapperConfiguration));
+
             services.AddScoped<BusesDAL>();
             services.AddScoped<UsersDAL>();
             services.AddScoped<SeatsDAL>();
@@ -53,12 +48,28 @@ namespace API
             services.AddScoped<BusLanesBLL>();
             services.AddScoped<BusCompaniesBLL>();
             services.AddScoped<BookingsBLL>();
-            services.AddControllers();
+
+            // TODO: dodadeno da se zastitime od cyclic reference koga se pravi serijalizicija vo json
+            // primer bus lanes sodrzi city a toj sodrzi buslanes, pa json znae da vleze vo endless loop
+            services.AddControllers().AddNewtonsoftJson(x =>
+                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // TODO: dodadeno za da update na DB avtomatski na start
+            // ensure migration of context
+            using var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope();
+
+            var context = serviceScope.ServiceProvider.GetRequiredService<DatabaseContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
