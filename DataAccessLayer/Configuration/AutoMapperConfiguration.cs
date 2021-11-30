@@ -10,8 +10,7 @@ namespace DataAccessLayer.Configuration
     {
         public AutoMapperConfiguration()
         {
-            CreateMap<BusLane, City>().ForAllMembers(x => x.ExplicitExpansion());
-            CreateMap<City, BusLane>().ForAllMembers(x => x.ExplicitExpansion());
+            //insert code here to map entity to DTO
         }
     }
 }

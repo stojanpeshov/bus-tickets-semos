@@ -20,12 +20,14 @@ namespace API.Controllers
             _busLanesBLL = busLanesBLL;
         }
 
+        //this method lists all the bus lanes ordered by city name
         [HttpGet]
         public IEnumerable<BusLane> GetAll()
         {
             return _busLanesBLL.GetAllBusLanes();
         }
 
+        //this method lists all the bus lanes ordered by the city id
         [HttpGet("{id}")]
         public IEnumerable<BusLane> GetAllBusLanesSorted(int id)
         {
