@@ -8,7 +8,7 @@ using System.Linq;
 namespace DataAccessLayer
 {
     // methods for the Cities Entity
-    public class CitiesDAL
+    public class CitiesDAL : ICitiesDAL
     {
         private readonly DatabaseContext _context;
         public CitiesDAL(DatabaseContext context)
@@ -17,7 +17,7 @@ namespace DataAccessLayer
         }
 
         // listing all the cities
-        public List<City> GetAllCities() 
+        public List<City> GetAllCities()
         {
             return _context.Cities.ToList();
         }

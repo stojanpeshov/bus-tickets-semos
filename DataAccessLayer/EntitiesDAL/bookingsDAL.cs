@@ -7,7 +7,7 @@ using DataAccessLayer.Entities;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class BookingsDAL
+    public class BookingsDAL : IBookingsDAL
     {
         private readonly DatabaseContext _context;
         public BookingsDAL(DatabaseContext context)

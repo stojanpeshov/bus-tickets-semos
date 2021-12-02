@@ -8,10 +8,10 @@ using DataAccessLayer.DataContext;
 namespace DataAccessLayer.EntitiesDAL
 {
     // methods for the Buses Entity
-    public class BusesDAL
+    public class BusesDAL : IBusesDAL
     {
         private readonly DatabaseContext _context;
-        public BusesDAL (DatabaseContext context)
+        public BusesDAL(DatabaseContext context)
         {
             _context = context;
         }
