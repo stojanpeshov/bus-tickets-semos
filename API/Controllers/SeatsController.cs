@@ -25,10 +25,17 @@ namespace API.Controllers
             return _seatsBLL.GetAllSeats();
         }
 
+        //[HttpGet("{id}")]
+        //public Seats GetSeatById (int id)
+        //{
+        //    return _seatsBLL.GetSeatById(id);
+        //}
+
+        // list me all the free bus seats
         [HttpGet("{id}")]
-        public Seats GetSeatById (int id)
+        public IEnumerable<Seats> GetSeatsByBus(int id)
         {
-            return _seatsBLL.GetSeatById(id);
+            return _seatsBLL.GetSeatsByBus(id);
         }
     }
 }

@@ -2,6 +2,7 @@
 using DataAccessLayer.EntitiesDAL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLogicLayer
 {
@@ -17,6 +18,12 @@ namespace BusinessLogicLayer
         public IEnumerable<Seats> GetAllSeats()
         {
             return _seat.GetAllSeats();
+        }
+
+        public IEnumerable<Seats> GetSeatsByBus(int id)
+        {
+            List<Seats> freeSeats = _seat.GetAllSeats().Where(x => x.BusId == id && x.Status == "free").ToList();
+            return freeSeats;
         }
 
         public Seats GetSeatById(int id)
