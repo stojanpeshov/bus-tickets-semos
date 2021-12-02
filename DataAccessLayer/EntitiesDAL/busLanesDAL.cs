@@ -6,12 +6,17 @@ using System.Linq;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class BusLanesDAL
+    public class BusLanesDAL : IBusLanesDAL
     {
         private readonly DatabaseContext _context;
-        public BusLanesDAL (DatabaseContext context)
+        public BusLanesDAL(DatabaseContext context)
         {
             _context = context;
+        }
+
+        // needed for mocks in tests
+        public BusLanesDAL()
+        {
         }
 
         public List<BusLane> GetAllBusLanes()
@@ -27,7 +32,7 @@ namespace DataAccessLayer.EntitiesDAL
              * 
              * preporaclivo e da se pravi orderby na nivo na DAL t.e. database query
              * */
-            var result =_context.BusLanes
+            var result = _context.BusLanes
                 .Include(bl => bl.City)
                 .OrderBy(bl => bl.City.CityName)
                 .ToList();

@@ -1,32 +1,29 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.EntitiesDAL;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace BusinessLogicLayer
 {
-    public class BusLanesBLL
+    public class BusLanesBLL : IBusLanesBLL
     {
-        private readonly BusLanesDAL _busLane;
-        public BusLanesBLL(BusLanesDAL busLane)
+        private readonly IBusLanesDAL _busLane;
+        public BusLanesBLL(IBusLanesDAL busLane)
         {
             _busLane = busLane;
         }
 
-        public IEnumerable<BusLane> GetAllBusLanes()
+        public List<BusLane> GetAllBusLanes()
         {
             return _busLane.GetAllBusLanes();
         }
 
         // filtriranje spored gradovi na avtobuski linii
-        public IEnumerable<BusLane> GetAllBusLanesSorted(int? id)
+        public IEnumerable<BusLane> GetAllBusLanesSorted(int? cityId)
         {
-            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.CityId == id).ToList();
+            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.CityId == cityId).ToList();
             return allBusLanes;
- 
+
         }
 
         public void Insert(BusLane busLane)

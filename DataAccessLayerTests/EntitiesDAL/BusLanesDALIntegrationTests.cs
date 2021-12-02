@@ -6,7 +6,7 @@ using Xunit;
 
 namespace DataAccessLayer.EntitiesDAL.Tests
 {
-    public class BusLanesDALTests
+    public class BusLanesDALIntegrationTests
     {
 
         [Fact()]
