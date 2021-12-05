@@ -28,16 +28,19 @@ namespace DataAccessLayer.EntitiesDAL
         public void Insert(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Add(timeTable);
+            _context.SaveChanges();
         }
 
         public void Update(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Update(timeTable);
+            _context.SaveChanges();
         }
 
         public void Delete(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Remove(timeTable);
+            _context.SaveChanges();
         }
     }
 }

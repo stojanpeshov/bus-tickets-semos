@@ -19,9 +19,6 @@ namespace DataAccessLayer.Entities
         public int? LaneId { get; set; }
         [ForeignKey("LaneId")]
         public  virtual BusLane Lane { get; set; }
-        public int? BusCapacity { get; set; }
-        [ForeignKey("BusCapacity")]
-        public virtual Buses BusSeats { get; set; }
         public int BusId { get; set; }
         [ForeignKey("BusId")]
         public virtual Buses Bus { get; set; }

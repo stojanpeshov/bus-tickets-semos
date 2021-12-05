@@ -30,16 +30,19 @@ namespace DataAccessLayer.EntitiesDAL
         public void Insert(Buses bus)
         {
             _context.Buses.Add(bus);
+            _context.SaveChanges();
         }
         // updating some parameters 
         public void Update(Buses bus)
         {
             _context.Buses.Update(bus);
+            _context.SaveChanges();
         }
         // deleting a bus
         public void Delete(Buses bus)
         {
             _context.Buses.Remove(bus);
+            _context.SaveChanges();
         }
     }
 }
