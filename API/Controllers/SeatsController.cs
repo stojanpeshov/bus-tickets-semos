@@ -32,10 +32,10 @@ namespace API.Controllers
         //}
 
         // list me all the free bus seats
-        [HttpGet("{id}")]
-        public IEnumerable<Seats> GetSeatsByBus(int id)
+        [HttpGet("{id}/{status}")]
+        public IEnumerable<Seats> GetSeatsByBus(int id, string status)
         {
-            return _seatsBLL.GetSeatsByBus(id);
+            return _seatsBLL.GetSeatsByBus(id, status);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace BusinessLogicLayer
         public IEnumerable<BusTimeTables> GetAllTimeTablesFiltered(DateTime? busDepartureTime, string busStartPoint, int? companyId, DateTime? busArrivalTime)
         {
             List<BusTimeTables> filteredBusTimeTablesList = _busTimeTable.GetAllTimeTables()
-                .Where(x => (x.BusDepartureTime == busDepartureTime || busDepartureTime == null)
+                .Where(x => ((x.BusDepartureTime == busDepartureTime || busDepartureTime >= DateTime.Now) || busDepartureTime == null)
                 && (x.BusStartPoint == busStartPoint || busStartPoint == null)
                 && (x.CompanyId == companyId || companyId == null)
                 && (x.BusArrivalTime == busArrivalTime || busArrivalTime == null)).ToList();

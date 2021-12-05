@@ -28,16 +28,19 @@ namespace DataAccessLayer.EntitiesDAL
         public void Insert(Bookings booking)
         {
             _context.Bookings.Add(booking);
+            _context.SaveChanges();
         }
 
         public void Update(Bookings booking)
         {
             _context.Bookings.Update(booking);
+            _context.SaveChanges();
         }
 
         public void Delete(Bookings booking)
         {
             _context.Bookings.Remove(booking);
+            _context.SaveChanges();
         }
     }
 }

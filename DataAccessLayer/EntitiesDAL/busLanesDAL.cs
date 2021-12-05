@@ -42,16 +42,19 @@ namespace DataAccessLayer.EntitiesDAL
         public void Insert(BusLane buslane)
         {
             _context.BusLanes.Add(buslane);
+            _context.SaveChanges();
         }
 
         public void Update(BusLane buslane)
         {
             _context.BusLanes.Update(buslane);
+            _context.SaveChanges();
         }
 
         public void Delete(BusLane buslane)
         {
             _context.BusLanes.Remove(buslane);
+            _context.SaveChanges();
         }
     }
 }

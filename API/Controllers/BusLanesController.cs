@@ -34,10 +34,11 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanesSorted(id);
         }
 
+        [HttpPost]
         public IActionResult Index([FromBodyAttribute]BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
-            return Ok(busLane);
+            return Ok();
         }
     }
 }
