@@ -19,10 +19,10 @@ namespace API.Controllers
             _busTimeTable = busTimeTable;
         }
 
-        [HttpGet("{busDepartureTime}/{busStartPoint}/{companyId}/{busArrivalTime}")]
-        public IEnumerable<BusTimeTables> FilteredBusTimeTables(DateTime? busDepartureTime, string busStartPoint, int? companyId, DateTime? busArrivalTime)
+        [HttpGet/*("{busDepartureTime}/{busStartPointCity}/{companyId}/{busArrivalTime}")*/]
+        public IEnumerable<BusTimeTables> FilteredBusTimeTables([FromQuery]DateTime? busDepartureTime, string busStartPointCity, int? companyId, DateTime? busArrivalTime)
         {
-            return _busTimeTable.GetAllTimeTablesFiltered(busDepartureTime, busStartPoint, companyId, busArrivalTime);
+            return _busTimeTable.GetAllTimeTablesFiltered(busDepartureTime, busStartPointCity, companyId, busArrivalTime);
         }
     }
 }

@@ -21,12 +21,18 @@ namespace BusinessLogicLayer
             return _busLane.GetAllBusLanes();
         }
 
-        // filtriranje spored gradovi na avtobuski linii
-        public IEnumerable<BusLane> GetAllBusLanesSorted(int? id)
+        // start point filtriranje
+        public IEnumerable<BusLane> GetAllBusLanesStartingPoints(int? id)
         {
-            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.CityId == id).ToList();
+            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.BusStartPoint.CityId == id).ToList();
             return allBusLanes;
- 
+        }
+
+        // ending point filtriranje
+        public IEnumerable<BusLane> GetAllBusLanesEndingPoints(int? id)
+        {
+            List<BusLane> allBusLanes = _busLane.GetAllBusLanes().Where(x => x.BusDestination.CityId == id).ToList();
+            return allBusLanes;
         }
 
         public void Insert(BusLane busLane)

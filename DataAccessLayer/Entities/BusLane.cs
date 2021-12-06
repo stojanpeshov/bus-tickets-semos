@@ -12,9 +12,10 @@ namespace DataAccessLayer.Entities
         [Key]
         public int LaneId { get; set; }
         public decimal Price { get; set; }
-        public int? BusId { get; set; }
+        public int BusId { get; set; }
         public virtual Buses Bus { get; set; }
-        public int CityId { get; set; }
-        public virtual City City { get; set; }
+        public BusStations BusStartPoint { get; set; }
+        public BusStations BusDestination { get; set; }
+
     }
 }

@@ -11,10 +11,6 @@ namespace DataAccessLayer.Entities
         [Key]
         public int CompanyId { get; set; }
         public string Company { get; set; }
-        
-        public int? BusId { get; set; }
-        [ForeignKey("BusId")]
-        public virtual Buses Bus { get; set; }
-        
+        public IEnumerable<Buses> Buses { get; set; }  
     }
 }

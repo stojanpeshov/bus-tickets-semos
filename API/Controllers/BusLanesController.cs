@@ -28,10 +28,16 @@ namespace API.Controllers
         }
 
         //this method lists all the bus lanes ordered by the city id
-        [HttpGet("{id}")]
-        public IEnumerable<BusLane> GetAllBusLanesSorted(int id)
+        [HttpGet("starting-point/{id}")]
+        public IEnumerable<BusLane> GetAllBusLanesByStartingPoint(int id)
         {
-            return _busLanesBLL.GetAllBusLanesSorted(id);
+            return _busLanesBLL.GetAllBusLanesStartingPoints(id);
+        }
+
+        [HttpGet("ending-point/{id}")]
+        public IEnumerable<BusLane> GetAllBusLanesByEndingPoint(int id)
+        {
+            return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
         [HttpPost]
