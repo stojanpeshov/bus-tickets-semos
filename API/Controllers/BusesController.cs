@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Entities;
+﻿using BusinessLogicLayer;
+using DataAccessLayer.Entities;
 using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,23 @@ namespace API.Controllers
     [ApiController]
     public class BusesController : ControllerBase
     {
-        private readonly BusesDAL _busesDAL;
-        public BusesController(BusesDAL busesDAL)
+        private readonly BusesBLL _busesBLL;
+        public BusesController (BusesBLL busesBLL)
         {
-            _busesDAL = busesDAL;
+            _busesBLL = busesBLL;
         }
 
         [HttpGet]
         public IEnumerable<Buses> GetAllBuses()
         {
-            return _busesDAL.GetAllBuses();
+            return _busesBLL.GetAllBuses();
+        }
+
+        [HttpPost]
+        public IActionResult Index([FromBodyAttribute] Buses bus)
+        {
+            _busesBLL.Insert(bus);
+            return Ok();
         }
     }
 }

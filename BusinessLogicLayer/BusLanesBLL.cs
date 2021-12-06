@@ -40,5 +40,15 @@ namespace BusinessLogicLayer
             _busLane.Insert(busLane);
         }
 
+        public void Delete(BusLane busLane)
+        {
+            _busLane.Delete(busLane);
+        }
+
+        public void Update(BusLane busLane)
+        {
+            _busLane.Update(busLane);
+        }
+
     }
 }

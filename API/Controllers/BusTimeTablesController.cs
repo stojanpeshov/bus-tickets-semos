@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpGet/*("{busDepartureTime}/{busStartPointCity}/{companyId}/{busArrivalTime}")*/]
-        public IEnumerable<BusTimeTables> FilteredBusTimeTables([FromQuery]DateTime? busDepartureTime, string busStartPointCity, int? companyId, DateTime? busArrivalTime)
+        public IEnumerable<BusTimeTables> FilteredBusTimeTables([FromQuery]DateTime? busDepartureTime, [FromQuery]string busStartPointCity, [FromQuery]int? companyId, [FromQuery]DateTime? busArrivalTime)
         {
             return _busTimeTable.GetAllTimeTablesFiltered(busDepartureTime, busStartPointCity, companyId, busArrivalTime);
         }

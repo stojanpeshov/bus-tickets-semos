@@ -15,7 +15,7 @@ namespace API.Controllers
     {
         private readonly BusLanesBLL _busLanesBLL;
 
-        public BusLanesController (BusLanesBLL busLanesBLL)
+        public BusLanesController(BusLanesBLL busLanesBLL)
         {
             _busLanesBLL = busLanesBLL;
         }
@@ -40,10 +40,24 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
-        [HttpPost]
-        public IActionResult Index([FromBodyAttribute]BusLane busLane)
+        //[HttpPost]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Insert(busLane);
+        //    return Ok();
+        //}
+
+        //[HttpDelete("{id}")]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Delete(busLane);
+        //    return Ok();
+        //}
+
+        [HttpPut("{id}")]
+        public IActionResult Index([FromBodyAttribute] BusLane busLane)
         {
-            _busLanesBLL.Insert(busLane);
+            _busLanesBLL.Update(busLane);
             return Ok();
         }
     }
