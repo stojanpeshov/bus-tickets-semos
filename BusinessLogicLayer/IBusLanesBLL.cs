@@ -5,8 +5,11 @@ namespace BusinessLogicLayer
 {
     public interface IBusLanesBLL
     {
+        void Delete(BusLane busLane);
         List<BusLane> GetAllBusLanes();
-        IEnumerable<BusLane> GetAllBusLanesSorted(int? cityId);
+        IEnumerable<BusLane> GetAllBusLanesEndingPoints(int? id);
+        IEnumerable<BusLane> GetAllBusLanesStartingPoints(int? id);
         void Insert(BusLane busLane);
+        void Update(BusLane busLane);
     }
 }

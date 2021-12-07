@@ -23,23 +23,43 @@ namespace DataAccessLayer.EntitiesDAL.Tests
             {
                 CityName = "Ohrid"
             };
+            //context.Cities.Add(citySkopje);
+            //context.Cities.Add(cityOhrid);
 
-            var expextedBusLaneSkopje = new BusLane()
+            var busStationSkopje = new BusStations()
             {
-                City = citySkopje,
+                City = citySkopje
+            };
+            var busStationOhrid = new BusStations()
+            {
+                City = cityOhrid
+            };
+            //context.BusStations.Add(busStationSkopje);
+            //context.BusStations.Add(busStationOhrid);
+
+            var bus = new Buses()
+            {
+                BusCapacity = 15,
+                BusType = "type",
+                Company = new BusCompanies() { Company = "company" }
+            };
+
+            var expectedSkopjeOhrid = new BusLane()
+            {
+                Bus = bus,
+                BusStartPoint = busStationSkopje,
+                BusDestination = busStationOhrid,
                 Price = 10
             };
-            var expextedBusLaneOhrid = new BusLane()
+            var expectedOhridSkopje = new BusLane()
             {
-                City = cityOhrid,
+                Bus = bus,
+                BusStartPoint = busStationOhrid,
+                BusDestination = busStationSkopje,
                 Price = 15
             };
-
-            context.Cities.Add(citySkopje);
-            context.Cities.Add(cityOhrid);
-            context.BusLanes.Add(expextedBusLaneSkopje);
-            context.BusLanes.Add(expextedBusLaneOhrid);
-
+            context.BusLanes.Add(expectedSkopjeOhrid);
+            context.BusLanes.Add(expectedOhridSkopje);
             context.SaveChanges();
 
             // Act    
@@ -48,15 +68,19 @@ namespace DataAccessLayer.EntitiesDAL.Tests
 
             // Assert
             Assert.Equal(2, actualList.Count);
-            var first = actualList[0]; // if sorting works this should be Ohrid
-            Assert.Equal(expextedBusLaneOhrid.Price, first.Price);
-            Assert.Equal(expextedBusLaneOhrid.City.CityId, first.City.CityId);
-            Assert.Equal(expextedBusLaneOhrid.City.CityName, first.City.CityName);
+            var first = actualList[0]; // if sorting works this should be Ohrid - Skopje
+            Assert.Equal(expectedOhridSkopje.Price, first.Price);
+            Assert.Equal(expectedOhridSkopje.BusStartPoint.CityId, first.BusStartPoint.CityId);
+            Assert.Equal(expectedOhridSkopje.BusStartPoint.City.CityName, first.BusStartPoint.City.CityName);
+            Assert.Equal(expectedOhridSkopje.BusDestination.CityId, first.BusDestination.CityId);
+            Assert.Equal(expectedOhridSkopje.BusDestination.City.CityName, first.BusDestination.City.CityName);
 
-            var second = actualList[1]; // if sorting works this should be Skopje
-            Assert.Equal(expextedBusLaneSkopje.Price, second.Price);
-            Assert.Equal(expextedBusLaneSkopje.City.CityId, second.City.CityId);
-            Assert.Equal(expextedBusLaneSkopje.City.CityName, second.City.CityName);
+            var second = actualList[1]; // if sorting works this should be Skopje - Ohrid
+            Assert.Equal(expectedSkopjeOhrid.Price, second.Price);
+            Assert.Equal(expectedSkopjeOhrid.BusStartPoint.CityId, second.BusStartPoint.CityId);
+            Assert.Equal(expectedSkopjeOhrid.BusStartPoint.City.CityName, second.BusStartPoint.City.CityName);
+            Assert.Equal(expectedSkopjeOhrid.BusDestination.CityId, second.BusDestination.CityId);
+            Assert.Equal(expectedSkopjeOhrid.BusDestination.City.CityName, second.BusDestination.City.CityName);
         }
 
         [Fact()]
