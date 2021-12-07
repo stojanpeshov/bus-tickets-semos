@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using API.Resources;
 using AutoMapper;
 using DataAccessLayer.Entities;
 
@@ -10,7 +11,8 @@ namespace DataAccessLayer.Configuration
     {
         public AutoMapperConfiguration()
         {
-            //insert code here to map entity to DTO
+            CreateMap<BusLaneDTO, BusLane>();
+            CreateMap<BusLane, BusLaneDTO>();
         }
     }
 }
