@@ -25,5 +25,19 @@ namespace API.Controllers
             _citiesBLL.Insert(city);
             return Ok();
         }
+
+        [HttpPut]
+        public IActionResult Update([FromBodyAttribute]City city)
+        {
+            _citiesBLL.Update(city);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete([FromBodyAttribute]City city)
+        {
+            _citiesBLL.Delete(city);
+            return Ok();
+        }
     }
 }
