@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class SeatsMigrationFix : Migration
+    public partial class InitialDbCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

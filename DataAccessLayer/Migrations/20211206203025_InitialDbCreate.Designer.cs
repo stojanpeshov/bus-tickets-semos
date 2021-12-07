@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211206173106_SeatsMigrationFix")]
-    partial class SeatsMigrationFix
+    [Migration("20211206203025_InitialDbCreate")]
+    partial class InitialDbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

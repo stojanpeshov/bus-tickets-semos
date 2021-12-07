@@ -16,6 +16,5 @@ namespace DataAccessLayer.Entities
         public virtual Buses Bus { get; set; }
         public BusStations BusStartPoint { get; set; }
         public BusStations BusDestination { get; set; }
-
     }
 }

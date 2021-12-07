@@ -40,12 +40,12 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
-        //[HttpPost]
-        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
-        //{
-        //    _busLanesBLL.Insert(busLane);
-        //    return Ok();
-        //}
+        [HttpPost]
+        public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        {
+            _busLanesBLL.Insert(busLane);
+            return Ok();
+        }
 
         //[HttpDelete("{id}")]
         //public IActionResult Index([FromBodyAttribute] BusLane busLane)
@@ -54,11 +54,11 @@ namespace API.Controllers
         //    return Ok();
         //}
 
-        [HttpPut("{id}")]
-        public IActionResult Index([FromBodyAttribute] BusLane busLane)
-        {
-            _busLanesBLL.Update(busLane);
-            return Ok();
-        }
+        //[HttpPut("{id}")]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Update(busLane);
+        //    return Ok();
+        //}
     }
 }
