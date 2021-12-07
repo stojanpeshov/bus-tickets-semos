@@ -10,17 +10,10 @@ namespace DataAccessLayer.Entities
     {
         [Key]
         public int BookingId { get; set; }
-        public int? UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Users User { get; set; }
-        public int? TimeTableId { get; set; }
-        [ForeignKey("TimeTableId")]
-        public virtual BusTimeTables TimeTable { get; set; }
-        public int? LaneId { get; set; }
-        [ForeignKey("LaneId")]
-        public  virtual BusLane Lane { get; set; }
-        public int? BusCapacity { get; set; }
-        [ForeignKey("BusCapacity")]
-        public virtual Buses BusSeats { get; set; }
+        public int UserId { get; set; }
+        public Users User { get; set; }
+        public int TimeTableId { get; set; }
+        public BusTimeTables TimeTable { get; set; }
+        public int SeatId { get; set; }
     }
 }

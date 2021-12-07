@@ -33,8 +33,8 @@ namespace DataAccessLayer.EntitiesDAL
              * preporaclivo e da se pravi orderby na nivo na DAL t.e. database query
              * */
             var result = _context.BusLanes
-                .Include(bl => bl.City)
-                .OrderBy(bl => bl.City.CityName)
+                .Include(bl => bl.BusStartPoint)
+                .OrderBy(bl => bl.BusStartPoint.City.CityName)
                 .ToList();
             return result;
         }
@@ -47,16 +47,19 @@ namespace DataAccessLayer.EntitiesDAL
         public void Insert(BusLane buslane)
         {
             _context.BusLanes.Add(buslane);
+            _context.SaveChanges();
         }
 
         public void Update(BusLane buslane)
         {
             _context.BusLanes.Update(buslane);
+            _context.SaveChanges();
         }
 
         public void Delete(BusLane buslane)
         {
             _context.BusLanes.Remove(buslane);
+            _context.SaveChanges();
         }
     }
 }

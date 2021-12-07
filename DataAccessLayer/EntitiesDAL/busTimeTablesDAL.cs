@@ -7,7 +7,7 @@ using DataAccessLayer.Entities;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class BusTimeTablesDAL
+    public class BusTimeTablesDAL : IBusTimeTablesDAL
     {
         private readonly DatabaseContext _context;
         public BusTimeTablesDAL(DatabaseContext context)
@@ -25,19 +25,22 @@ namespace DataAccessLayer.EntitiesDAL
             return _context.BusTimeTables.Find(id);
         }
 
-        public void Insert (BusTimeTables timeTable)
+        public void Insert(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Add(timeTable);
+            _context.SaveChanges();
         }
 
-        public void Update (BusTimeTables timeTable)
+        public void Update(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Update(timeTable);
+            _context.SaveChanges();
         }
 
-        public void Delete (BusTimeTables timeTable)
+        public void Delete(BusTimeTables timeTable)
         {
             _context.BusTimeTables.Remove(timeTable);
+            _context.SaveChanges();
         }
     }
 }

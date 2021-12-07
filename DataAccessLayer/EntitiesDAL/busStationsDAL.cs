@@ -8,7 +8,7 @@ using DataAccessLayer.Entities;
 namespace DataAccessLayer.EntitiesDAL
 {
     // methods for the BusStations Entity
-    public class BusStationsDAL
+    public class BusStationsDAL : IBusStationsDAL
     {
         private readonly DatabaseContext _context;
         public BusStationsDAL(DatabaseContext context)

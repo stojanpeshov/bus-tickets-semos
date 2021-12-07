@@ -26,23 +26,16 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusCapacity")
+                    b.Property<int>("SeatId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LaneId")
+                    b.Property<int>("TimeTableId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TimeTableId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
-
-                    b.HasIndex("BusCapacity");
-
-                    b.HasIndex("LaneId");
 
                     b.HasIndex("TimeTableId");
 
@@ -58,15 +51,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CompanyId");
-
-                    b.HasIndex("BusId");
 
                     b.ToTable("BusCompanies");
                 });
@@ -78,10 +66,16 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
+                    b.Property<int?>("BusDestinationStationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CityId")
+                    b.Property<int>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BusStartPointStationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -89,7 +83,11 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("LaneId");
 
+                    b.HasIndex("BusDestinationStationId");
+
                     b.HasIndex("BusId");
+
+                    b.HasIndex("BusStartPointStationId");
 
                     b.HasIndex("CityId");
 
@@ -103,10 +101,7 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BusLines")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.HasKey("StationId");
@@ -129,16 +124,20 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("BusDepartureTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BusDestination")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BusLaneLaneId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BusStartPoint")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("TimeTableId");
+
+                    b.HasIndex("BusLaneLaneId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("BusTimeTables");
                 });
@@ -156,7 +155,12 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("BusType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.HasKey("BusId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Buses");
                 });
@@ -183,7 +187,7 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
+                    b.Property<int>("BusId")
                         .HasColumnType("int");
 
                     b.Property<int>("SeatNumber")
@@ -231,73 +235,103 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "BusSeats")
-                        .WithMany()
-                        .HasForeignKey("BusCapacity");
-
-                    b.HasOne("DataAccessLayer.Entities.BusLane", "Lane")
-                        .WithMany()
-                        .HasForeignKey("LaneId");
-
                     b.HasOne("DataAccessLayer.Entities.BusTimeTables", "TimeTable")
                         .WithMany()
-                        .HasForeignKey("TimeTableId");
+                        .HasForeignKey("TimeTableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataAccessLayer.Entities.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("BusSeats");
-
-                    b.Navigation("Lane");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TimeTable");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
-                        .WithMany()
-                        .HasForeignKey("BusId");
-
-                    b.Navigation("Bus");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Entities.BusLane", b =>
                 {
+                    b.HasOne("DataAccessLayer.Entities.BusStations", "BusDestination")
+                        .WithMany()
+                        .HasForeignKey("BusDestinationStationId");
+
                     b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
                         .WithMany()
-                        .HasForeignKey("BusId");
-
-                    b.HasOne("DataAccessLayer.Entities.City", "City")
-                        .WithMany("BusLanes")
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("BusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataAccessLayer.Entities.BusStations", "BusStartPoint")
+                        .WithMany()
+                        .HasForeignKey("BusStartPointStationId");
+
+                    b.HasOne("DataAccessLayer.Entities.City", null)
+                        .WithMany("BusLanes")
+                        .HasForeignKey("CityId");
+
                     b.Navigation("Bus");
 
-                    b.Navigation("City");
+                    b.Navigation("BusDestination");
+
+                    b.Navigation("BusStartPoint");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.BusTimeTables", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.BusLane", "BusLane")
+                        .WithMany()
+                        .HasForeignKey("BusLaneLaneId");
+
+                    b.HasOne("DataAccessLayer.Entities.BusCompanies", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusLane");
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Buses", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.BusCompanies", "Company")
+                        .WithMany("Buses")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Seats", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
                         .WithMany()
-                        .HasForeignKey("BusId");
+                        .HasForeignKey("BusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Bus");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
+                {
+                    b.Navigation("Buses");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.City", b =>

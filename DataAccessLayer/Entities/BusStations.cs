@@ -11,10 +11,7 @@ namespace DataAccessLayer.Entities
     {
         [Key]
         public int StationId { get; set; }
-        public string BusLines { get; set; }
-        public int? CityId { get; set; }
-
-        [ForeignKey("CityId")]
+        public int CityId { get; set; }
         public virtual City City { get; set; }
     }
 }

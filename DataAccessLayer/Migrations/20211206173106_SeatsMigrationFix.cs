@@ -3,39 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class InitialDatabaseMigration : Migration
+    public partial class SeatsMigrationFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Buses",
+                name: "BusCompanies",
                 columns: table => new
                 {
-                    BusId = table.Column<int>(type: "int", nullable: false)
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BusType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BusCapacity = table.Column<int>(type: "int", nullable: false)
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Buses", x => x.BusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BusTimeTables",
-                columns: table => new
-                {
-                    TimeTableId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusStartPoint = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BusDestination = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BusDepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BusArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BusTimeTables", x => x.TimeTableId);
+                    table.PrimaryKey("PK_BusCompanies", x => x.CompanyId);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,69 +52,23 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BusCompanies",
+                name: "Buses",
                 columns: table => new
                 {
+                    BusId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BusCapacity = table.Column<int>(type: "int", nullable: false),
                     CompanyId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BusId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BusCompanies", x => x.CompanyId);
+                    table.PrimaryKey("PK_Buses", x => x.BusId);
                     table.ForeignKey(
-                        name: "FK_BusCompanies_Buses_BusId",
-                        column: x => x.BusId,
-                        principalTable: "Buses",
-                        principalColumn: "BusId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Seats",
-                columns: table => new
-                {
-                    SeatId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SeatNumber = table.Column<int>(type: "int", nullable: false),
-                    BusId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Seats", x => x.SeatId);
-                    table.ForeignKey(
-                        name: "FK_Seats_Buses_BusId",
-                        column: x => x.BusId,
-                        principalTable: "Buses",
-                        principalColumn: "BusId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BusLanes",
-                columns: table => new
-                {
-                    LaneId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BusId = table.Column<int>(type: "int", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BusLanes", x => x.LaneId);
-                    table.ForeignKey(
-                        name: "FK_BusLanes_Buses_BusId",
-                        column: x => x.BusId,
-                        principalTable: "Buses",
-                        principalColumn: "BusId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BusLanes_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "CityId",
+                        name: "FK_Buses_BusCompanies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "BusCompanies",
+                        principalColumn: "CompanyId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -142,8 +78,7 @@ namespace DataAccessLayer.Migrations
                 {
                     StationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BusLines = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CityId = table.Column<int>(type: "int", nullable: true)
+                    CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,6 +88,97 @@ namespace DataAccessLayer.Migrations
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "CityId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seats",
+                columns: table => new
+                {
+                    SeatId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeatNumber = table.Column<int>(type: "int", nullable: false),
+                    BusId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seats", x => x.SeatId);
+                    table.ForeignKey(
+                        name: "FK_Seats_Buses_BusId",
+                        column: x => x.BusId,
+                        principalTable: "Buses",
+                        principalColumn: "BusId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BusLanes",
+                columns: table => new
+                {
+                    LaneId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BusId = table.Column<int>(type: "int", nullable: false),
+                    BusStartPointStationId = table.Column<int>(type: "int", nullable: true),
+                    BusDestinationStationId = table.Column<int>(type: "int", nullable: true),
+                    CityId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BusLanes", x => x.LaneId);
+                    table.ForeignKey(
+                        name: "FK_BusLanes_Buses_BusId",
+                        column: x => x.BusId,
+                        principalTable: "Buses",
+                        principalColumn: "BusId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BusLanes_BusStations_BusDestinationStationId",
+                        column: x => x.BusDestinationStationId,
+                        principalTable: "BusStations",
+                        principalColumn: "StationId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BusLanes_BusStations_BusStartPointStationId",
+                        column: x => x.BusStartPointStationId,
+                        principalTable: "BusStations",
+                        principalColumn: "StationId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BusLanes_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "CityId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BusTimeTables",
+                columns: table => new
+                {
+                    TimeTableId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BusDepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BusArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    BusLaneLaneId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BusTimeTables", x => x.TimeTableId);
+                    table.ForeignKey(
+                        name: "FK_BusTimeTables_BusCompanies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "BusCompanies",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BusTimeTables_BusLanes_BusLaneLaneId",
+                        column: x => x.BusLaneLaneId,
+                        principalTable: "BusLanes",
+                        principalColumn: "LaneId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -162,49 +188,26 @@ namespace DataAccessLayer.Migrations
                 {
                     BookingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    TimeTableId = table.Column<int>(type: "int", nullable: true),
-                    LaneId = table.Column<int>(type: "int", nullable: true),
-                    BusCapacity = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TimeTableId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.BookingId);
                     table.ForeignKey(
-                        name: "FK_Bookings_Buses_BusCapacity",
-                        column: x => x.BusCapacity,
-                        principalTable: "Buses",
-                        principalColumn: "BusId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Bookings_BusLanes_LaneId",
-                        column: x => x.LaneId,
-                        principalTable: "BusLanes",
-                        principalColumn: "LaneId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Bookings_BusTimeTables_TimeTableId",
                         column: x => x.TimeTableId,
                         principalTable: "BusTimeTables",
                         principalColumn: "TimeTableId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_BusCapacity",
-                table: "Bookings",
-                column: "BusCapacity");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_LaneId",
-                table: "Bookings",
-                column: "LaneId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_TimeTableId",
@@ -217,14 +220,24 @@ namespace DataAccessLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BusCompanies_BusId",
-                table: "BusCompanies",
-                column: "BusId");
+                name: "IX_Buses_CompanyId",
+                table: "Buses",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BusLanes_BusDestinationStationId",
+                table: "BusLanes",
+                column: "BusDestinationStationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BusLanes_BusId",
                 table: "BusLanes",
                 column: "BusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BusLanes_BusStartPointStationId",
+                table: "BusLanes",
+                column: "BusStartPointStationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BusLanes_CityId",
@@ -235,6 +248,16 @@ namespace DataAccessLayer.Migrations
                 name: "IX_BusStations_CityId",
                 table: "BusStations",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BusTimeTables_BusLaneLaneId",
+                table: "BusTimeTables",
+                column: "BusLaneLaneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BusTimeTables_CompanyId",
+                table: "BusTimeTables",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seats_BusId",
@@ -248,16 +271,7 @@ namespace DataAccessLayer.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "BusCompanies");
-
-            migrationBuilder.DropTable(
-                name: "BusStations");
-
-            migrationBuilder.DropTable(
                 name: "Seats");
-
-            migrationBuilder.DropTable(
-                name: "BusLanes");
 
             migrationBuilder.DropTable(
                 name: "BusTimeTables");
@@ -266,7 +280,16 @@ namespace DataAccessLayer.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
+                name: "BusLanes");
+
+            migrationBuilder.DropTable(
                 name: "Buses");
+
+            migrationBuilder.DropTable(
+                name: "BusStations");
+
+            migrationBuilder.DropTable(
+                name: "BusCompanies");
 
             migrationBuilder.DropTable(
                 name: "Cities");

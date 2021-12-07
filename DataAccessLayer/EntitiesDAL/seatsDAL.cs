@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class SeatsDAL
+    public class SeatsDAL : ISeatsDAL
     {
         private readonly DatabaseContext _context;
         public SeatsDAL(DatabaseContext context)

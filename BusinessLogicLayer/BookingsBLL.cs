@@ -18,5 +18,10 @@ namespace BusinessLogicLayer
         {
             _booking.Insert(booking);
         }
+
+        public void PurchaseTicket(Bookings booking)
+        {
+            _booking.Insert(booking);
+        }
     }
 }

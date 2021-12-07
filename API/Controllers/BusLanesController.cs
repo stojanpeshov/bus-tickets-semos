@@ -15,7 +15,7 @@ namespace API.Controllers
     {
         private readonly BusLanesBLL _busLanesBLL;
 
-        public BusLanesController (BusLanesBLL busLanesBLL)
+        public BusLanesController(BusLanesBLL busLanesBLL)
         {
             _busLanesBLL = busLanesBLL;
         }
@@ -28,16 +28,37 @@ namespace API.Controllers
         }
 
         //this method lists all the bus lanes ordered by the city id
-        [HttpGet("{id}")]
-        public IEnumerable<BusLane> GetAllBusLanesSorted(int id)
+        [HttpGet("starting-point/{id}")]
+        public IEnumerable<BusLane> GetAllBusLanesByStartingPoint(int id)
         {
-            return _busLanesBLL.GetAllBusLanesSorted(id);
+            return _busLanesBLL.GetAllBusLanesStartingPoints(id);
         }
 
-        public IActionResult Index([FromBodyAttribute]BusLane busLane)
+        [HttpGet("ending-point/{id}")]
+        public IEnumerable<BusLane> GetAllBusLanesByEndingPoint(int id)
         {
-            _busLanesBLL.Insert(busLane);
-            return Ok(busLane);
+            return _busLanesBLL.GetAllBusLanesEndingPoints(id);
+        }
+
+        //[HttpPost]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Insert(busLane);
+        //    return Ok();
+        //}
+
+        //[HttpDelete("{id}")]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Delete(busLane);
+        //    return Ok();
+        //}
+
+        [HttpPut("{id}")]
+        public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        {
+            _busLanesBLL.Update(busLane);
+            return Ok();
         }
     }
 }
