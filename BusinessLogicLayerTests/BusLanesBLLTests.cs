@@ -20,6 +20,7 @@ namespace BusinessLogicLayer.Tests
         [Fact()]
         public void GetAllBusLanes_ShouldReturnAllBusLanes()
         {
+            // Seed
             var citySkopje = new City()
             {
                 CityName = "Skopje"
@@ -29,18 +30,38 @@ namespace BusinessLogicLayer.Tests
                 CityName = "Ohrid"
             };
 
-            var expectedBusLaneSkopje = new BusLane()
+            var busStationSkopje = new BusStations()
             {
-                City = citySkopje,
+                City = citySkopje
+            };
+            var busStationOhrid = new BusStations()
+            {
+                City = cityOhrid
+            };
+
+            var bus = new Buses()
+            {
+                BusCapacity = 15,
+                BusType = "type",
+                Company = new BusCompanies() { Company = "company" }
+            };
+
+            var expectedSkopjeOhrid = new BusLane()
+            {
+                Bus = bus,
+                BusStartPoint = busStationSkopje,
+                BusDestination = busStationOhrid,
                 Price = 10
             };
-            var expectedBusLaneOhrid = new BusLane()
+            var expectedOhridSkopje = new BusLane()
             {
-                City = cityOhrid,
+                Bus = bus,
+                BusStartPoint = busStationOhrid,
+                BusDestination = busStationSkopje,
                 Price = 15
             };
 
-            var expectedLanes = new List<BusLane> { expectedBusLaneOhrid, expectedBusLaneSkopje };
+            var expectedLanes = new List<BusLane> { expectedOhridSkopje, expectedSkopjeOhrid };
             
             // Mock
             mockBusLanesDAL.Setup(x => x.GetAllBusLanes()).Returns(expectedLanes);
@@ -51,14 +72,18 @@ namespace BusinessLogicLayer.Tests
             // Assert
             Assert.Equal(2, actualList.Count);
             var first = actualList[0]; // if sorting works this should be Ohrid
-            Assert.Equal(expectedBusLaneOhrid.Price, first.Price);
-            Assert.Equal(expectedBusLaneOhrid.City.CityId, first.City.CityId);
-            Assert.Equal(expectedBusLaneOhrid.City.CityName, first.City.CityName);
+            Assert.Equal(expectedOhridSkopje.Price, first.Price);
+            Assert.Equal(expectedOhridSkopje.BusStartPoint.CityId, first.BusStartPoint.CityId);
+            Assert.Equal(expectedOhridSkopje.BusStartPoint.City.CityName, first.BusStartPoint.City.CityName);
+            Assert.Equal(expectedOhridSkopje.BusDestination.CityId, first.BusDestination.CityId);
+            Assert.Equal(expectedOhridSkopje.BusDestination.City.CityName, first.BusDestination.City.CityName);
 
             var second = actualList[1]; // if sorting works this should be Skopje
-            Assert.Equal(expectedBusLaneSkopje.Price, second.Price);
-            Assert.Equal(expectedBusLaneSkopje.City.CityId, second.City.CityId);
-            Assert.Equal(expectedBusLaneSkopje.City.CityName, second.City.CityName);
+            Assert.Equal(expectedSkopjeOhrid.Price, second.Price);
+            Assert.Equal(expectedSkopjeOhrid.BusStartPoint.CityId, second.BusStartPoint.CityId);
+            Assert.Equal(expectedSkopjeOhrid.BusStartPoint.City.CityName, second.BusStartPoint.City.CityName);
+            Assert.Equal(expectedSkopjeOhrid.BusDestination.CityId, second.BusDestination.CityId);
+            Assert.Equal(expectedSkopjeOhrid.BusDestination.City.CityName, second.BusDestination.City.CityName);
         }
 
         [Fact()]
