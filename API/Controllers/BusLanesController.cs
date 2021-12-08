@@ -1,11 +1,7 @@
 ﻿using BusinessLogicLayer;
 using DataAccessLayer.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -40,22 +36,22 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
-        //[HttpPost]
-        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
-        //{
-        //    _busLanesBLL.Insert(busLane);
-        //    return Ok();
-        //}
+        [HttpPost]
+        public IActionResult CreateNew([FromBody] BusLane busLane)
+        {
+            _busLanesBLL.Insert(busLane);
+            return Ok();
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
-        //{
-        //    _busLanesBLL.Delete(busLane);
-        //    return Ok();
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromBody] BusLane busLane)
+        {
+            _busLanesBLL.Delete(busLane);
+            return Ok();
+        }
 
         [HttpPut("{id}")]
-        public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        public IActionResult Update([FromBody] BusLane busLane)
         {
             _busLanesBLL.Update(busLane);
             return Ok();

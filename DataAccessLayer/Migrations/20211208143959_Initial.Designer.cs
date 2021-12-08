@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211206173106_SeatsMigrationFix")]
-    partial class SeatsMigrationFix
+    [Migration("20211208143959_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,13 +68,13 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusDestinationStationId")
+                    b.Property<int?>("BusDestinationId")
                         .HasColumnType("int");
 
                     b.Property<int>("BusId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BusStartPointStationId")
+                    b.Property<int?>("BusStartPointId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CityId")
@@ -85,11 +85,11 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("LaneId");
 
-                    b.HasIndex("BusDestinationStationId");
+                    b.HasIndex("BusDestinationId");
 
                     b.HasIndex("BusId");
 
-                    b.HasIndex("BusStartPointStationId");
+                    b.HasIndex("BusStartPointId");
 
                     b.HasIndex("CityId");
 
@@ -258,7 +258,7 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("DataAccessLayer.Entities.BusStations", "BusDestination")
                         .WithMany()
-                        .HasForeignKey("BusDestinationStationId");
+                        .HasForeignKey("BusDestinationId");
 
                     b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
                         .WithMany()
@@ -268,7 +268,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasOne("DataAccessLayer.Entities.BusStations", "BusStartPoint")
                         .WithMany()
-                        .HasForeignKey("BusStartPointStationId");
+                        .HasForeignKey("BusStartPointId");
 
                     b.HasOne("DataAccessLayer.Entities.City", null)
                         .WithMany("BusLanes")

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class SeatsMigrationFix : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,8 +120,8 @@ namespace DataAccessLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BusId = table.Column<int>(type: "int", nullable: false),
-                    BusStartPointStationId = table.Column<int>(type: "int", nullable: true),
-                    BusDestinationStationId = table.Column<int>(type: "int", nullable: true),
+                    BusStartPointId = table.Column<int>(type: "int", nullable: true),
+                    BusDestinationId = table.Column<int>(type: "int", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -134,14 +134,14 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "BusId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BusLanes_BusStations_BusDestinationStationId",
-                        column: x => x.BusDestinationStationId,
+                        name: "FK_BusLanes_BusStations_BusDestinationId",
+                        column: x => x.BusDestinationId,
                         principalTable: "BusStations",
                         principalColumn: "StationId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BusLanes_BusStations_BusStartPointStationId",
-                        column: x => x.BusStartPointStationId,
+                        name: "FK_BusLanes_BusStations_BusStartPointId",
+                        column: x => x.BusStartPointId,
                         principalTable: "BusStations",
                         principalColumn: "StationId",
                         onDelete: ReferentialAction.Restrict);
@@ -225,9 +225,9 @@ namespace DataAccessLayer.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BusLanes_BusDestinationStationId",
+                name: "IX_BusLanes_BusDestinationId",
                 table: "BusLanes",
-                column: "BusDestinationStationId");
+                column: "BusDestinationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BusLanes_BusId",
@@ -235,9 +235,9 @@ namespace DataAccessLayer.Migrations
                 column: "BusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BusLanes_BusStartPointStationId",
+                name: "IX_BusLanes_BusStartPointId",
                 table: "BusLanes",
-                column: "BusStartPointStationId");
+                column: "BusStartPointId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BusLanes_CityId",
