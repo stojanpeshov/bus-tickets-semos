@@ -4,14 +4,16 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211208151037_BusLanesTablesOptionalIdFiels")]
+    partial class BusLanesTablesOptionalIdFiels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,6 +77,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int?>("BusStartPointId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -85,6 +90,8 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("BusId");
 
                     b.HasIndex("BusStartPointId");
+
+                    b.HasIndex("CityId");
 
                     b.ToTable("BusLanes");
                 });
@@ -263,6 +270,10 @@ namespace DataAccessLayer.Migrations
                         .WithMany()
                         .HasForeignKey("BusStartPointId");
 
+                    b.HasOne("DataAccessLayer.Entities.City", null)
+                        .WithMany("BusLanes")
+                        .HasForeignKey("CityId");
+
                     b.Navigation("Bus");
 
                     b.Navigation("BusDestination");
@@ -323,6 +334,11 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
                 {
                     b.Navigation("Buses");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.City", b =>
+                {
+                    b.Navigation("BusLanes");
                 });
 #pragma warning restore 612, 618
         }

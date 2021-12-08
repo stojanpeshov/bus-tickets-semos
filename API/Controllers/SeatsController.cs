@@ -31,11 +31,27 @@ namespace API.Controllers
         //    return _seatsBLL.GetSeatById(id);
         //}
 
-        // list me all the free bus seats
+        // list me all the free/reserved bus seats
         [HttpGet("{id}/{status}")]
         public IEnumerable<Seats> GetSeatsByBus(int id, string status)
         {
             return _seatsBLL.GetSeatsByBus(id, status);
+        }
+
+        [HttpPost]
+        public IActionResult Index([FromBodyAttribute] Seats seat)
+        {
+            _seatsBLL.Insert(seat);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update([FromBodyAttribute] int id)
+        {
+            //needs to update the seat status after booking a seat
+            Seats seat = new Seats();
+            _seatsBLL.Update(seat);
+            return Ok();
         }
     }
 }

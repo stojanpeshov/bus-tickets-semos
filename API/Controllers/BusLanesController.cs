@@ -15,12 +15,10 @@ namespace API.Controllers
     public class BusLanesController : ControllerBase
     {
         private readonly BusLanesBLL _busLanesBLL;
-        private readonly IMapper _mapper;
 
-        public BusLanesController(BusLanesBLL busLanesBLL, IMapper mapper)
+        public BusLanesController(BusLanesBLL busLanesBLL)
         {
             _busLanesBLL = busLanesBLL;
-            _mapper = mapper;
         }
 
         //this method lists all the bus lanes ordered by city name
@@ -44,9 +42,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index([FromBodyAttribute] BusLaneDTO busLaneDTO)
+        public IActionResult Index([FromBodyAttribute] BusLane busLane)
         {
-            var busLane = _mapper.Map<BusLaneDTO, BusLane>(busLaneDTO);
             _busLanesBLL.Insert(busLane);
             return Ok();
         }

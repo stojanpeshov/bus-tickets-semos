@@ -11,8 +11,7 @@ namespace DataAccessLayer.Configuration
     {
         public AutoMapperConfiguration()
         {
-            CreateMap<BusLaneDTO, BusLane>();
-            CreateMap<BusLane, BusLaneDTO>();
+            //mapping goes here
         }
     }
 }

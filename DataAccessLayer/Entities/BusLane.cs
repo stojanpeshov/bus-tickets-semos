@@ -14,7 +14,9 @@ namespace DataAccessLayer.Entities
         public decimal Price { get; set; }
         public int BusId { get; set; }
         public virtual Buses Bus { get; set; }
+        public int? BusStartPointId { get; set; }
         public BusStations BusStartPoint { get; set; }
+        public int? BusDestinationId { get; set; }
         public BusStations BusDestination { get; set; }
     }
 }
