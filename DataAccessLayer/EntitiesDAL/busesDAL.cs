@@ -31,6 +31,18 @@ namespace DataAccessLayer.EntitiesDAL
         {
             _context.Buses.Add(bus);
             _context.SaveChanges();
+            int busCapacity = bus.BusCapacity;
+            for (int i = 1; i <= busCapacity; i++)
+            {
+                Seats seats = new Seats();
+
+                seats.SeatNumber = i;
+                seats.BusId = bus.BusId;
+                seats.Status = "free";
+                _context.Seats.Add(seats);
+                _context.SaveChanges();
+            }
+            _context.SaveChanges();
         }
         // updating some parameters 
         public void Update(Buses bus)

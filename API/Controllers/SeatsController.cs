@@ -38,19 +38,26 @@ namespace API.Controllers
             return _seatsBLL.GetSeatsByBus(id, status);
         }
 
+        // insert new seat
         [HttpPost]
-        public IActionResult Index([FromBodyAttribute] Seats seat)
+        public IActionResult Insert([FromBodyAttribute] Seats seat)
         {
             _seatsBLL.Insert(seat);
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update([FromBodyAttribute] int id)
+        // update seat status
+        [HttpPut("{id}/{status}")]
+        public IActionResult Update(int id, string status)
         {
-            //needs to update the seat status after booking a seat
-            Seats seat = new Seats();
-            _seatsBLL.Update(seat);
+            if (status.ToLower() == "free" || status.ToLower() == "reserved")
+            {
+                _seatsBLL.UpdateSeatStatus(id, status);
+            }
+            else
+            {
+                return BadRequest();
+            }
             return Ok();
         }
     }

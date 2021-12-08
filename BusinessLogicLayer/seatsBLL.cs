@@ -53,5 +53,13 @@ namespace BusinessLogicLayer
             Seats seat = _seat.GetSeatById(id);
             return seat;
         }
+
+        public void UpdateSeatStatus(int id, string status)
+        {
+            Seats seat = _seat.GetSeatById(id);
+
+            seat.Status = status;
+            _seat.Update(seat);
+        }
     }
 }
