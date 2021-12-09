@@ -42,14 +42,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        public IActionResult Index([FromBody] BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
             return Ok();
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBodyAttribute] BusLane busLane)
+        public IActionResult Delete([FromBody] BusLane busLane)
         {
             _busLanesBLL.Delete(busLane);
             return Ok();

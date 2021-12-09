@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index ([FromBodyAttribute]Bookings booking)
+        public IActionResult Index ([FromBody]Bookings booking)
         {
             _bookingBLL.Insert(booking);
             return Ok();

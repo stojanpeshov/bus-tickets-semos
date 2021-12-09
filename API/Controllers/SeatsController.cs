@@ -40,7 +40,7 @@ namespace API.Controllers
 
         // insert new seat
         [HttpPost]
-        public IActionResult Insert([FromBodyAttribute] Seats seat)
+        public IActionResult Insert([FromBody] Seats seat)
         {
             _seatsBLL.Insert(seat);
             return Ok();
