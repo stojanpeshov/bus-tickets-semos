@@ -9,10 +9,10 @@ namespace BusinessLogicLayer
 {
     // pri kopce prebaraj vozni redovi, treba da se izlistaat site avtobuski linii za odreden datum
     // ako e deneshen den da gi lista tie sto se vremenski po prebaruvanjeto
-    public class BusTimeTablesBLL
+    public class BusTimeTablesBLL : IBusTimeTablesBLL
     {
-        private readonly BusTimeTablesDAL _busTimeTable;
-        public BusTimeTablesBLL(BusTimeTablesDAL busTimeTable)
+        private readonly IBusTimeTablesDAL _busTimeTable;
+        public BusTimeTablesBLL(IBusTimeTablesDAL busTimeTable)
         {
             _busTimeTable = busTimeTable;
         }
@@ -26,7 +26,7 @@ namespace BusinessLogicLayer
         public IEnumerable<BusTimeTables> GetAllTimeTablesFiltered(DateTime? busDepartureTime, string busStartPointCity, int? companyId, DateTime? busArrivalTime)
         {
             List<BusTimeTables> filteredBusTimeTablesList = _busTimeTable.GetAllTimeTables()
-                .Where(x => ((x.BusDepartureTime == busDepartureTime || busDepartureTime >= DateTime.Now) || busDepartureTime == null)
+                .Where(x => (x.BusDepartureTime == busDepartureTime || busDepartureTime >= DateTime.Now || busDepartureTime == null)
                 && (x.BusLane.BusStartPoint.City.CityName == busStartPointCity || busStartPointCity == null)
                 && (x.CompanyId == companyId || companyId == null)
                 && (x.BusArrivalTime == busArrivalTime || busArrivalTime == null)).ToList();

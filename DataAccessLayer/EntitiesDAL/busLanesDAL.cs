@@ -29,7 +29,10 @@ namespace DataAccessLayer.EntitiesDAL
              * */
             var result = _context.BusLanes
                 .Include(bl => bl.BusStartPoint)
+                .ThenInclude(bs => bs.City)
                 .OrderBy(bl => bl.BusStartPoint.City.CityName)
+                .Include(bl => bl.BusDestination)
+                .ThenInclude(bs => bs.City)
                 .ToList();
             return result;
         }

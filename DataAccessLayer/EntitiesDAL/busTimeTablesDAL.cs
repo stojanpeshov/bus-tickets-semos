@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntitiesDAL
 {
@@ -17,7 +18,15 @@ namespace DataAccessLayer.EntitiesDAL
 
         public List<BusTimeTables> GetAllTimeTables()
         {
-            return _context.BusTimeTables.ToList();
+            //return _context.BusTimeTables.ToList();
+
+            // Are we missing some relation/entity in order to filter the departure time after datetime.now??
+            var result = _context.BusTimeTables
+                .Include(btt => btt.Company)
+                .Include(btt => btt.BusLane)
+                .ThenInclude(bl => bl.BusStartPoint.City)
+                .ToList();
+            return result;
         }
 
         public BusTimeTables GetTimeTableById(int id)

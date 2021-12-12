@@ -40,7 +40,6 @@ namespace DataAccessLayer.EntitiesDAL
                 seats.BusId = bus.BusId;
                 seats.Status = "free";
                 _context.Seats.Add(seats);
-                _context.SaveChanges();
             }
             _context.SaveChanges();
         }

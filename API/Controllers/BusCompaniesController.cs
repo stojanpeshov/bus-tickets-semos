@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index([FromBody] BusCompanies busCompany)
+        public IActionResult Insert([FromBody] BusCompanies busCompany)
         {
             _busCompaniesBLL.Insert(busCompany);
             return Ok(busCompany);

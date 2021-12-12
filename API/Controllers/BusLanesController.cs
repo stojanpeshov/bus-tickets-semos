@@ -28,21 +28,24 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanes();
         }
 
-        //this method lists all the bus lanes ordered by the city id
-        [HttpGet("starting-point/{id}")]
+
+
+        [HttpGet]
+        [Route("BusStartPoint/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByStartingPoint(int id)
         {
             return _busLanesBLL.GetAllBusLanesStartingPoints(id);
         }
 
-        [HttpGet("ending-point/{id}")]
+        [HttpGet]
+        [Route("BusDestination/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByEndingPoint(int id)
         {
             return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
         [HttpPost]
-        public IActionResult Index([FromBody] BusLane busLane)
+        public IActionResult Insert([FromBody] BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
             return Ok();

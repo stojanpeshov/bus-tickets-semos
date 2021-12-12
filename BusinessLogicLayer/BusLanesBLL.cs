@@ -8,10 +8,10 @@ using System.Text;
 
 namespace BusinessLogicLayer
 {
-    public class BusLanesBLL
+    public class BusLanesBLL : IBusLanesBLL
     {
-        private readonly BusLanesDAL _busLane;
-        public BusLanesBLL(BusLanesDAL busLane)
+        private readonly IBusLanesDAL _busLane;
+        public BusLanesBLL(IBusLanesDAL busLane)
         {
             _busLane = busLane;
         }

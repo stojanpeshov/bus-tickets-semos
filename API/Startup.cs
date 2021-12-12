@@ -36,9 +36,9 @@ namespace API
             services.AddScoped<UsersDAL>();
             services.AddScoped<SeatsDAL>();
             services.AddScoped<CitiesDAL>();
-            services.AddScoped<BusTimeTablesDAL>();
+            services.AddScoped<IBusTimeTablesDAL, BusTimeTablesDAL>();
             services.AddScoped<BusStationsDAL>();
-            services.AddScoped<BusLanesDAL>();
+            services.AddScoped<IBusLanesDAL, BusLanesDAL>();
             services.AddScoped<BusCompaniesDAL>();
             services.AddScoped<BookingsDAL>();
             services.AddScoped<BusesBLL>();

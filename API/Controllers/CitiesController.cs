@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index([FromBody]City city)
+        public IActionResult Insert([FromBody]City city)
         {
             _citiesBLL.Insert(city);
             return Ok();

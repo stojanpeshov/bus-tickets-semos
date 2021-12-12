@@ -32,20 +32,8 @@ namespace BusinessLogicLayer
 
         public IEnumerable<Seats> GetSeatsByBus(int id, string status)
         {
-            if (status == "free")
-            {
-                List<Seats> freeSeats = _seat.GetAllSeats().Where(x => x.BusId == id && x.Status == "free").ToList();
-                return freeSeats;
-            }
-            else if (status == "reserved")
-            {
-                List<Seats> reservedSeats = _seat.GetAllSeats().Where(x => x.BusId == id && x.Status == "reserved").ToList();
-                return reservedSeats;
-            }
-            else
-            {
-                return null;
-            }
+            List <Seats> seats = _seat.GetAllSeats().Where(x => x.BusId == id && x.Status == status).ToList();
+            return seats;
         }
 
         public Seats GetSeatById(int id)
