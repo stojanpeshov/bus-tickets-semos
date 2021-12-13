@@ -26,9 +26,10 @@ namespace BusinessLogicLayer
         public IEnumerable<BusTimeTables> GetAllTimeTablesFiltered(DateTime? busDepartureTime, string busStartPointCity, int? companyId, DateTime? busArrivalTime)
         {
             List<BusTimeTables> filteredBusTimeTablesList = _busTimeTable.GetAllTimeTables()
-                .Where(x => (x.BusDepartureTime == busDepartureTime || busDepartureTime >= DateTime.Now || busDepartureTime == null)
+                // is this condition ok, or we should stick to the previous one?
+                .Where(x => (x.BusDepartureTime == busDepartureTime || x.BusDepartureTime >= busDepartureTime || x.BusDepartureTime >= DateTime.Now || busDepartureTime == null)
                 && (x.BusLane.BusStartPoint.City.CityName == busStartPointCity || busStartPointCity == null)
-                && (x.CompanyId == companyId || companyId == null)
+                && ( companyId == null || x.CompanyId == companyId)
                 && (x.BusArrivalTime == busArrivalTime || busArrivalTime == null)).ToList();
 
             return filteredBusTimeTablesList;
