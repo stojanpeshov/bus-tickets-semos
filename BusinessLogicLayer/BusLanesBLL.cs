@@ -13,7 +13,7 @@ namespace BusinessLogicLayer
             _busLane = busLane;
         }
 
-        public List<BusLane> GetAllBusLanes()
+        public IEnumerable<BusLane> GetAllBusLanes()
         {
             return _busLane.GetAllBusLanes();
         }

@@ -21,7 +21,7 @@ namespace API.Controllers
 
         //this method lists all the bus lanes ordered by city name
         [HttpGet]
-        public List<BusLane> GetAll()
+        public IEnumerable<BusLane> GetAll()
         {
             return _busLanesBLL.GetAllBusLanes();
         }
