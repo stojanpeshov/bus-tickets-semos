@@ -1,0 +1,1 @@
+dotnet ef migrations add -c DatabaseContext -p DataAccessLayer.csproj -s ..\API\API.csproj -o Migrations %1
