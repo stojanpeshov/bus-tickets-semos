@@ -18,9 +18,6 @@ namespace DataAccessLayer.EntitiesDAL
 
         public List<BusTimeTables> GetAllTimeTables()
         {
-            //return _context.BusTimeTables.ToList();
-
-            // Are we missing some relation/entity in order to filter the departure time after datetime.now??
             var result = _context.BusTimeTables
                 .Include(btt => btt.Company)
                 .Include(btt => btt.BusLane)

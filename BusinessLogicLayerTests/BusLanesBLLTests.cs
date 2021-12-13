@@ -3,6 +3,7 @@ using DataAccessLayer.EntitiesDAL;
 using Moq;
 using System.Collections.Generic;
 using Xunit;
+using System.Linq;
 
 namespace BusinessLogicLayer.Tests
 {
@@ -67,7 +68,7 @@ namespace BusinessLogicLayer.Tests
             mockBusLanesDAL.Setup(x => x.GetAllBusLanes()).Returns(expectedLanes);
 
             // Act
-            var actualList = busLanesService.GetAllBusLanes();
+            var actualList = busLanesService.GetAllBusLanes().ToList();
 
             // Assert
             Assert.Equal(2, actualList.Count);
