@@ -20,9 +20,23 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index([FromBodyAttribute]City city)
+        public IActionResult Insert([FromBody]City city)
         {
             _citiesBLL.Insert(city);
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult Update([FromBody]City city)
+        {
+            _citiesBLL.Update(city);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete([FromBody]City city)
+        {
+            _citiesBLL.Delete(city);
             return Ok();
         }
     }

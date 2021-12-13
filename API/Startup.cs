@@ -1,5 +1,7 @@
+using AutoMapper;
 using BusinessLogicLayer;
 using DataAccessLayer;
+using DataAccessLayer.Configuration;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.EntitiesDAL;
 using Microsoft.AspNetCore.Builder;
@@ -28,13 +30,13 @@ namespace API
             services.AddDbContextPool<DatabaseContext>(options => options.UseSqlServer(settings.sqlConnectionString));
 
             // TODO: ne go razbiram maperov, sto treba da mapira i kade se koristi?
-            //services.AddAutoMapper(typeof(AutoMapperConfiguration));
+            services.AddAutoMapper(typeof(AutoMapperConfiguration));
 
             services.AddScoped<BusesDAL>();
             services.AddScoped<UsersDAL>();
             services.AddScoped<SeatsDAL>();
             services.AddScoped<CitiesDAL>();
-            services.AddScoped<BusTimeTablesDAL>();
+            services.AddScoped<IBusTimeTablesDAL, BusTimeTablesDAL>();
             services.AddScoped<BusStationsDAL>();
             services.AddScoped<IBusLanesDAL, BusLanesDAL>();
             services.AddScoped<BusCompaniesDAL>();

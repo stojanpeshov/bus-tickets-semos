@@ -14,6 +14,5 @@ namespace DataAccessLayer.Entities
         public BusStations BusStartPoint { get; set; }
         public int? BusDestinationId { get; set; }
         public BusStations BusDestination { get; set; }
-
     }
 }

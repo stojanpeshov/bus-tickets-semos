@@ -18,5 +18,15 @@ namespace BusinessLogicLayer
         {
             _city.Insert(city);
         }
+
+        public void Update(City city)
+        {
+            _city.Update(city);
+        }
+
+        public void Delete(City city)
+        {
+            _city.Delete(city);
+        }
     }
 }

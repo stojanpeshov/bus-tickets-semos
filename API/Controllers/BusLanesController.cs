@@ -1,7 +1,10 @@
-﻿using BusinessLogicLayer;
+﻿using API.Resources;
+using AutoMapper;
+using BusinessLogicLayer;
 using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -23,38 +26,41 @@ namespace API.Controllers
             return _busLanesBLL.GetAllBusLanes();
         }
 
-        //this method lists all the bus lanes ordered by the city id
-        [HttpGet("starting-point/{id}")]
+
+
+        [HttpGet]
+        [Route("BusStartPoint/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByStartingPoint(int id)
         {
             return _busLanesBLL.GetAllBusLanesStartingPoints(id);
         }
 
-        [HttpGet("ending-point/{id}")]
+        [HttpGet]
+        [Route("BusDestination/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByEndingPoint(int id)
         {
             return _busLanesBLL.GetAllBusLanesEndingPoints(id);
         }
 
         [HttpPost]
-        public IActionResult CreateNew([FromBody] BusLane busLane)
+        public IActionResult Insert([FromBody] BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public IActionResult Delete([FromBody] BusLane busLane)
         {
             _busLanesBLL.Delete(busLane);
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update([FromBody] BusLane busLane)
-        {
-            _busLanesBLL.Update(busLane);
-            return Ok();
-        }
+        //[HttpPut("{id}")]
+        //public IActionResult Index([FromBodyAttribute] BusLane busLane)
+        //{
+        //    _busLanesBLL.Update(busLane);
+        //    return Ok();
+        //}
     }
 }
