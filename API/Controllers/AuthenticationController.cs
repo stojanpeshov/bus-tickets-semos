@@ -49,7 +49,7 @@ namespace API.Controllers
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "Can't register at the moment, please try again later." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "User can't be registered at the moment. Please be sure that your password contains at least one capital letter, one number and one symbol!" });
             }
 
             return Ok(new Response { Status = "Success!", Message = "User created successfully, welcome to our system!" });
@@ -74,7 +74,7 @@ namespace API.Controllers
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "Admin can't be registered at the moment, please try again later." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "Admin can't be registered at the moment. Please be sure that your password contains at least one capital letter, one number and one symbol!" });
             }
 
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
@@ -94,6 +94,10 @@ namespace API.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            var doesUserExist = await userManager.FindByNameAsync(model.Username);
+            if (doesUserExist == null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "User does not exist, please register in order to login!" });
+
             var user = await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user , model.Password))
             {
@@ -126,7 +130,7 @@ namespace API.Controllers
                     user = user.UserName
                 });
             }
-            return Unauthorized();
+            return StatusCode(StatusCodes.Status401Unauthorized, new Response { Status = "Error!", Message = "Username or password is incorrect!" });
         }
     }
 }
