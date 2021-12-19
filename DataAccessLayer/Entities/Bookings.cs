@@ -11,7 +11,6 @@ namespace DataAccessLayer.Entities
         [Key]
         public int BookingId { get; set; }
         public int UserId { get; set; }
-        public Users User { get; set; }
         public int TimeTableId { get; set; }
         public BusTimeTables TimeTable { get; set; }
         public int SeatId { get; set; }

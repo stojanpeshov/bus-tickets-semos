@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using API.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.DataContext
 {
     // DbContext is a pre-build class that allows us to interact with our database
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<ApplicationUser>
     {
         // Initiating a database connection with its entities
         public class OptionsBuild
@@ -33,7 +35,8 @@ namespace DataAccessLayer.DataContext
         // constructor for the DbContext class
         public DatabaseContext(DbContextOptions<DatabaseContext> options): base(options) { }
         // DbSets
-        public DbSet<Users> Users { get; set; }
+
+        // Users table was removed because the IdentityDbContext generates custom User Table and there were conflicts
         public DbSet<City> Cities { get; set; }
         public DbSet<BusStations> BusStations { get; set; }
         public DbSet<Buses> Buses { get; set; }
@@ -42,5 +45,10 @@ namespace DataAccessLayer.DataContext
         public DbSet<BusTimeTables> BusTimeTables { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
         public DbSet<Seats> Seats { get; set; }
+        // generating authentication tables
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
