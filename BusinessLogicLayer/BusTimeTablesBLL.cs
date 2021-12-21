@@ -23,6 +23,11 @@ namespace BusinessLogicLayer
             return _busTimeTable.GetAllTimeTables();
         }
 
+        public void Insert(BusTimeTables timeTable)
+        {
+            _busTimeTable.Insert(timeTable);
+        }
+
         public IEnumerable<BusTimeTables> GetAllTimeTablesFiltered(DateTime? busDepartureTime, string busStartPointCity, int? companyId, DateTime? busArrivalTime)
         {
             List<BusTimeTables> filteredBusTimeTablesList = _busTimeTable.GetAllTimeTables()

@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer;
+using DataAccessLayer.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,6 +22,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Index ([FromBody]Bookings booking)
         {
             _bookingBLL.Insert(booking);

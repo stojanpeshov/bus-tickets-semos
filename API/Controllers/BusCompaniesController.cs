@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer;
+using DataAccessLayer.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,12 +22,14 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         public IEnumerable<BusCompanies> GetAllBusCompanies()
         {
             return _busCompaniesBLL.GetAllBusCompanies();
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Insert([FromBody] BusCompanies busCompany)
         {
             _busCompaniesBLL.Insert(busCompany);

@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer;
+using DataAccessLayer.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BusTimeTablesController : ControllerBase
     {
         private readonly BusTimeTablesBLL _busTimeTable;
@@ -19,10 +21,19 @@ namespace API.Controllers
             _busTimeTable = busTimeTable;
         }
 
-        [HttpGet/*("{busDepartureTime}/{busStartPointCity}/{companyId}/{busArrivalTime}")*/]
+        [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         public IEnumerable<BusTimeTables> FilteredBusTimeTables([FromQuery]DateTime? busDepartureTime, [FromQuery]string busStartPointCity, [FromQuery]int? companyId, [FromQuery]DateTime? busArrivalTime)
         {
             return _busTimeTable.GetAllTimeTablesFiltered(busDepartureTime, busStartPointCity, companyId, busArrivalTime);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
+        public IActionResult Insert([FromBody] BusTimeTables busTimeTable)
+        {
+            _busTimeTable.Insert(busTimeTable);
+            return Ok();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using API.Resources;
 using AutoMapper;
 using BusinessLogicLayer;
+using DataAccessLayer.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,14 +25,14 @@ namespace API.Controllers
 
         //this method lists all the bus lanes ordered by city name
         [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         public IEnumerable<BusLane> GetAll()
         {
             return _busLanesBLL.GetAllBusLanes();
         }
 
-
-
         [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         [Route("BusStartPoint/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByStartingPoint(int id)
         {
@@ -38,6 +40,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         [Route("BusDestination/City/{id}")]
         public IEnumerable<BusLane> GetAllBusLanesByEndingPoint(int id)
         {
@@ -45,6 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Insert([FromBody] BusLane busLane)
         {
             _busLanesBLL.Insert(busLane);
@@ -52,6 +56,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Delete([FromBody] BusLane busLane)
         {
             _busLanesBLL.Delete(busLane);

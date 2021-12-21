@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer;
+using DataAccessLayer.Authentication;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -20,6 +22,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User, Admin")]
         public IEnumerable<Seats> GetAllSeats()
         {
             return _seatsBLL.GetAllSeats();
@@ -33,6 +36,7 @@ namespace API.Controllers
 
         // list me all the free/reserved bus seats
         [HttpGet("{id}/{status}")]
+        [Authorize(Roles = "User, Admin")]
         public IEnumerable<Seats> GetSeatsByBus(int id, string status)
         {
             return _seatsBLL.GetSeatsByBus(id, status);
@@ -40,6 +44,7 @@ namespace API.Controllers
 
         // insert new seat
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Insert([FromBody] Seats seat)
         {
             _seatsBLL.Insert(seat);
@@ -48,6 +53,7 @@ namespace API.Controllers
 
         // update seat status
         [HttpPut("{id}/{status}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Update(int id, string status)
         {
             if (status.ToLower() == "free" || status.ToLower() == "reserved")

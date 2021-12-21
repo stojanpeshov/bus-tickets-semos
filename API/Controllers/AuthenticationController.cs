@@ -52,6 +52,16 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "User can't be registered at the moment. Please be sure that your password contains at least one capital letter, one number and one symbol!" });
             }
 
+            // assigning an user role
+            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+            {
+                await userManager.AddToRoleAsync(user, UserRoles.User);
+            }
+
             return Ok(new Response { Status = "Success!", Message = "User created successfully, welcome to our system!" });
         }
 
@@ -77,6 +87,8 @@ namespace API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error!", Message = "Admin can't be registered at the moment. Please be sure that your password contains at least one capital letter, one number and one symbol!" });
             }
 
+
+            // assigning an admin role
             if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
                 await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await roleManager.RoleExistsAsync(UserRoles.User))
@@ -118,7 +130,7 @@ namespace API.Controllers
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(5),
+                    expires: DateTime.Now.AddHours(24),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
