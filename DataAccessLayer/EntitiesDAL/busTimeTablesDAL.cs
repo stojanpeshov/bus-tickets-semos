@@ -4,36 +4,52 @@ using System.Text;
 using System.Linq;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class busTimeTablesDAL
+    public class BusTimeTablesDAL : IBusTimeTablesDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BusTimeTablesDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public List<BusTimeTables> GetAllTimeTables()
         {
-            return db.BusTimeTables.ToList();
+            //return _context.BusTimeTables.ToList();
+
+            // Are we missing some relation/entity in order to filter the departure time after datetime.now??
+            var result = _context.BusTimeTables
+                .Include(btt => btt.Company)
+                .Include(btt => btt.BusLane)
+                .ThenInclude(bl => bl.BusStartPoint.City)
+                .ToList();
+            return result;
         }
 
         public BusTimeTables GetTimeTableById(int id)
         {
-            return db.BusTimeTables.Find(id);
+            return _context.BusTimeTables.Find(id);
         }
 
-        public void Insert (BusTimeTables timeTable)
+        public void Insert(BusTimeTables timeTable)
         {
-            db.BusTimeTables.Add(timeTable);
+            _context.BusTimeTables.Add(timeTable);
+            _context.SaveChanges();
         }
 
-        public void Update (BusTimeTables timeTable)
+        public void Update(BusTimeTables timeTable)
         {
-            db.BusTimeTables.Update(timeTable);
+            _context.BusTimeTables.Update(timeTable);
+            _context.SaveChanges();
         }
 
-        public void Delete (BusTimeTables timeTable)
+        public void Delete(BusTimeTables timeTable)
         {
-            db.BusTimeTables.Remove(timeTable);
+            _context.BusTimeTables.Remove(timeTable);
+            _context.SaveChanges();
         }
     }
 }

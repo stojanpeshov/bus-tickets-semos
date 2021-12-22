@@ -19,6 +19,71 @@ namespace DataAccessLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("API.Authentication.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
                 {
                     b.Property<int>("BookingId")
@@ -26,23 +91,18 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusCapacity")
+                    b.Property<int>("SeatId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LaneId")
+                    b.Property<int>("TimeTableId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TimeTableId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BookingId");
 
-                    b.HasIndex("BusCapacity");
-
-                    b.HasIndex("LaneId");
+                    b.HasIndex("SeatId");
 
                     b.HasIndex("TimeTableId");
 
@@ -58,27 +118,28 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("BusId");
-
                     b.ToTable("BusCompanies");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusLanes", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusLane", b =>
                 {
                     b.Property<int>("LaneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusId")
+                    b.Property<int?>("BusDestinationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BusStartPointId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -86,7 +147,11 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("LaneId");
 
+                    b.HasIndex("BusDestinationId");
+
                     b.HasIndex("BusId");
+
+                    b.HasIndex("BusStartPointId");
 
                     b.ToTable("BusLanes");
                 });
@@ -98,10 +163,7 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BusLines")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.HasKey("StationId");
@@ -124,16 +186,20 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("BusDepartureTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BusDestination")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("BusLaneLaneId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BusStartPoint")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("TimeTableId");
+
+                    b.HasIndex("BusLaneLaneId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("BusTimeTables");
                 });
@@ -151,12 +217,17 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("BusType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.HasKey("BusId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Buses");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Cities", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.City", b =>
                 {
                     b.Property<int>("CityId")
                         .ValueGeneratedOnAdd()
@@ -171,88 +242,312 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.Users", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.Seats", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("SeatId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
+                    b.Property<int>("BusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SeatId");
+
+                    b.HasIndex("BusId");
+
+                    b.ToTable("Seats");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("RegistrationTime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Surname")
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Users");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "BusSeats")
+                    b.HasOne("DataAccessLayer.Entities.Seats", "Seat")
                         .WithMany()
-                        .HasForeignKey("BusCapacity");
-
-                    b.HasOne("DataAccessLayer.Entities.BusLanes", "Lane")
-                        .WithMany()
-                        .HasForeignKey("LaneId");
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataAccessLayer.Entities.BusTimeTables", "TimeTable")
                         .WithMany()
-                        .HasForeignKey("TimeTableId");
+                        .HasForeignKey("TimeTableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("DataAccessLayer.Entities.Users", "User")
+                    b.HasOne("API.Authentication.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("BusSeats");
-
-                    b.Navigation("Lane");
+                    b.Navigation("Seat");
 
                     b.Navigation("TimeTable");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
+            modelBuilder.Entity("DataAccessLayer.Entities.BusLane", b =>
                 {
+                    b.HasOne("DataAccessLayer.Entities.BusStations", "BusDestination")
+                        .WithMany()
+                        .HasForeignKey("BusDestinationId");
+
                     b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
                         .WithMany()
-                        .HasForeignKey("BusId");
+                        .HasForeignKey("BusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Bus");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Entities.BusLanes", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
+                    b.HasOne("DataAccessLayer.Entities.BusStations", "BusStartPoint")
                         .WithMany()
-                        .HasForeignKey("BusId");
+                        .HasForeignKey("BusStartPointId");
 
                     b.Navigation("Bus");
+
+                    b.Navigation("BusDestination");
+
+                    b.Navigation("BusStartPoint");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.BusStations", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Cities", "City")
+                    b.HasOne("DataAccessLayer.Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.BusTimeTables", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.BusLane", "BusLane")
+                        .WithMany()
+                        .HasForeignKey("BusLaneLaneId");
+
+                    b.HasOne("DataAccessLayer.Entities.BusCompanies", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusLane");
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Buses", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.BusCompanies", "Company")
+                        .WithMany("Buses")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Seats", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.Buses", "Bus")
+                        .WithMany()
+                        .HasForeignKey("BusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bus");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("API.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("API.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("API.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.BusCompanies", b =>
+                {
+                    b.Navigation("Buses");
                 });
 #pragma warning restore 612, 618
         }

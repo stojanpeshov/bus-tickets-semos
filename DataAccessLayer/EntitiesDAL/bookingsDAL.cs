@@ -7,33 +7,40 @@ using DataAccessLayer.Entities;
 
 namespace DataAccessLayer.EntitiesDAL
 {
-    public class bookingsDAL
+    public class BookingsDAL : IBookingsDAL
     {
-        DatabaseContext db = new DatabaseContext();
+        private readonly DatabaseContext _context;
+        public BookingsDAL(DatabaseContext context)
+        {
+            _context = context;
+        }
 
         public List<Bookings> GetAllBookings()
         {
-            return db.Bookings.ToList();
+            return _context.Bookings.ToList();
         }
 
         public Bookings GetBookingById(int id)
         {
-            return db.Bookings.Find(id);
+            return _context.Bookings.Find(id);
         }
 
         public void Insert(Bookings booking)
         {
-            db.Bookings.Add(booking);
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
         }
 
         public void Update(Bookings booking)
         {
-            db.Bookings.Update(booking);
+            _context.Bookings.Update(booking);
+            _context.SaveChanges();
         }
 
         public void Delete(Bookings booking)
         {
-            db.Bookings.Remove(booking);
+            _context.Bookings.Remove(booking);
+            _context.SaveChanges();
         }
     }
 }

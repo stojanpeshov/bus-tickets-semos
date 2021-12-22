@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
+using API.Authentication;
 
 namespace DataAccessLayer.Entities
 {
@@ -10,17 +12,11 @@ namespace DataAccessLayer.Entities
     {
         [Key]
         public int BookingId { get; set; }
-        public int? UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Users User { get; set; }
-        public int? TimeTableId { get; set; }
-        [ForeignKey("TimeTableId")]
-        public virtual BusTimeTables TimeTable { get; set; }
-        public int? LaneId { get; set; }
-        [ForeignKey("LaneId")]
-        public  virtual BusLanes Lane { get; set; }
-        public int? BusCapacity { get; set; }
-        [ForeignKey("BusCapacity")]
-        public virtual Buses BusSeats { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
+        public int TimeTableId { get; set; }
+        public BusTimeTables TimeTable { get; set; }
+        public int SeatId { get; set; }
+        public virtual Seats Seat { get; set; }
     }
 }
