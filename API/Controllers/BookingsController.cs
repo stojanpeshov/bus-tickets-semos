@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using DataAccessLayer.Authentication;
+using DataAccessLayer.DataContext;
 using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,17 +17,20 @@ namespace API.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly BookingsBLL _bookingBLL;
-        public BookingsController (BookingsBLL bookingsBLL)
+        private readonly DatabaseContext _context;
+        public BookingsController (BookingsBLL bookingsBLL, DatabaseContext databaseContext)
         {
             _bookingBLL = bookingsBLL;
+            _context = databaseContext;
         }
 
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-        public IActionResult Index ([FromBody]Bookings booking)
+        public IActionResult Insert ([FromBody]Bookings booking)
         {
             _bookingBLL.Insert(booking);
             return Ok();
         }
+        // the column user id should be filled automatically depending on which user is logged in when the booking is made 
     }
 }
