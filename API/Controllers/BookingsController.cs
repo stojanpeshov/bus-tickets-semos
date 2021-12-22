@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -28,9 +29,13 @@ namespace API.Controllers
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Insert ([FromBody]Bookings booking)
         {
+            ClaimsPrincipal currentUser = this.User;
+            string userName = currentUser.FindFirst(ClaimTypes.Name).Value;
+            var currentAppUser = _context.Users.Where(x => x.UserName == userName).FirstOrDefault();
+
+            booking.UserId = currentAppUser.Id;
             _bookingBLL.Insert(booking);
             return Ok();
         }
-        // the column user id should be filled automatically depending on which user is logged in when the booking is made 
     }
 }
