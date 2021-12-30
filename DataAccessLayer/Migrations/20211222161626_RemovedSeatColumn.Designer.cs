@@ -4,14 +4,16 @@ using DataAccessLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211222161626_RemovedSeatColumn")]
+    partial class RemovedSeatColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,9 +93,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TimeTableId")
                         .HasColumnType("int");
 
@@ -101,8 +100,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BookingId");
-
-                    b.HasIndex("SeatId");
 
                     b.HasIndex("TimeTableId");
 
@@ -398,12 +395,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Bookings", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Seats", "Seat")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataAccessLayer.Entities.BusTimeTables", "TimeTable")
                         .WithMany()
                         .HasForeignKey("TimeTableId")
@@ -413,8 +404,6 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("API.Authentication.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Seat");
 
                     b.Navigation("TimeTable");
 
